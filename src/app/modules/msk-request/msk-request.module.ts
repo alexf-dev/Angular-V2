@@ -10,6 +10,8 @@ import {RadioButtonModule} from "primeng/radiobutton";
 import {TableModule} from "primeng/table";
 import {InputTextModule} from "primeng/inputtext";
 import {CardModule} from "primeng/card";
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { RadioGroupFieldComponent } from '@shared/radio-group-field/radio-group-field.component';
 
 @NgModule({
   declarations: [MskRequestFormComponent],
@@ -23,6 +25,8 @@ import {CardModule} from "primeng/card";
     RadioButtonModule,
     TableModule,
     InputTextModule,
+    TextInputFieldComponent,
+    RadioGroupFieldComponent,
     CardModule
   ],
   exports: [MskRequestFormComponent]

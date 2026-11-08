@@ -1,95 +1,48 @@
-<section class="cbdi-login" aria-labelledby="cbdi-login-title">
-  <h1 id="cbdi-login-title" class="cbdi-login-title">Авторизация</h1>
+<div class="mt-5">
+    <form #form="ngForm">
+        <span class="w-full mb-5 input-container w-full md:w-30rem mb-5">
+<!--            <i class="pi pi-user icon-left"></i>-->
+            <i class="pi pi-times icon-right" (click)="username = null"></i>
+            <input id="username1" type="text"
+                   [(ngModel)]="username"
+                   name="username"
+                   #usernameRef="ngModel"
+                   required
+                   placeholder="{{'MAIN.AUTH.USER_NAME' | translate}}" pInputText class="w-full mb-5" style="padding-left:1.0rem">
+        </span>
+        <br>
+        <span class="w-full mb-5 input-container w-full md:w-30rem mb-5">
+<!--            <i class="pi pi-key icon-left"></i>-->
+            <i class="icon-right" *ngIf="!showPassword" (click)="showPassword = !showPassword"> <img src="/assets/layout/images/icons/eye.svg"></i>
+            <i class="icon-right" *ngIf="showPassword" (click)="showPassword = !showPassword"> <img src="/assets/layout/images/icons/eye-slash.svg"></i>
+            <input id="password" type="{{showPassword? 'text' : 'password'}}"
+                   [(ngModel)]="password"
+                   name="password"
+                   #passwordRef="ngModel"
+                   required
+                   placeholder="{{'MAIN.AUTH.PASSWORD' | translate}}" pInputText class="w-full mb-5" style="padding-left:1.0rem">
+        </span>
 
-  <form #form="ngForm" (ngSubmit)="login()" novalidate>
-    <div class="cbdi-login-field">
-      <label for="username1">{{ 'MAIN.AUTH.USER_NAME' | translate }}</label>
-      <input
-        id="username1"
-        name="username"
-        type="text"
-        pInputText
-        class="cbdi-login-input w-full"
-        [(ngModel)]="username"
-        #usernameRef="ngModel"
-        required
-        autocomplete="username"
-        placeholder="Введите имя"
-      />
-    </div>
-
-    <div class="cbdi-login-field">
-      <label for="password">{{ 'MAIN.AUTH.PASSWORD' | translate }}</label>
-      <div class="cbdi-login-password">
-        <input
-          id="password"
-          name="password"
-          [type]="showPassword ? 'text' : 'password'"
-          pInputText
-          class="cbdi-login-input w-full"
-          [(ngModel)]="password"
-          #passwordRef="ngModel"
-          required
-          autocomplete="current-password"
-          placeholder="Введите пароль"
-        />
-        <button
-          class="cbdi-login-password-toggle"
-          type="button"
-          [attr.aria-label]="showPassword ? 'Скрыть пароль' : 'Показать пароль'"
-          (click)="showPassword = !showPassword"
-        >
-          <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="cbdi-login-agreement">
-      <p-checkbox
-        [(ngModel)]="confirmed"
-        [binary]="true"
-        name="confirmed"
-        inputId="cbdi-agreement"
-      ></p-checkbox>
-      <label for="cbdi-agreement">{{ 'COMMON.ENTRY_AGREEMENT' | translate }}</label>
-      <button type="button" class="cbdi-login-agreement-link" (click)="display = true">
-        {{ 'COMMON.USER_AGREEMENT' | translate }}
-      </button>
-    </div>
-
-    <button
-      type="submit"
-      class="cbdi-login-submit"
-      [disabled]="form.invalid || !confirmed"
-    >
-      <span>{{ 'MAIN.AUTH.LOGON' | translate }}</span>
-      <i class="pi pi-arrow-right" aria-hidden="true"></i>
-    </button>
-
-    <!-- Сохраняем доступ к существующему маршруту смены пароля. -->
-    <a class="cbdi-login-change-password" routerLink="../changepass">
-      {{ 'MAIN.AUTH.TAB_CHANGE_PWD' | translate }}
-    </a>
-  </form>
-
-  <p-dialog
-    [header]="'COMMON.USER_AGREEMENT' | translate"
-    [(visible)]="display"
-    [modal]="true"
-    [style]="{ width: 'min(520px, calc(100vw - 24px))' }"
-    [breakpoints]="{ '960px': '90vw' }"
-  >
-    <p class="line-height-3 m-0">{{ 'COMMON.USER_AGREEMENT_TEXT' | translate }}</p>
-    <ng-template pTemplate="footer">
-      <button
-        pButton
-        type="button"
-        class="p-button-outlined"
-        [label]="'COMMON.ENTRY_AGREEMENT' | translate"
-        (click)="display = false; confirmed = true"
-      ></button>
-    </ng-template>
-  </p-dialog>
-
-  <app-custom-toast></app-custom-toast>
-</section>
+        <div class="flex align-items-center justify-content-between mb-5 gap-5">
+            <div class="flex align-items-center">
+                <p-checkbox [(ngModel)]="confirmed" id="rememberme" name="confirmed" [binary]="true" styleClass="mr-2"></p-checkbox>
+                <label for="rememberme">{{'COMMON.ENTRY_AGREEMENT' | translate}}</label>
+            </div>
+            <p-dialog header="{{'COMMON.USER_AGREEMENT' | translate}}" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30rem'}" [breakpoints]="{'960px': '25rem'}">
+                <p class="line-height-3 m-0">
+                    {{'COMMON.USER_AGREEMENT_TEXT' | translate}}
+                </p>
+                <ng-template pTemplate="footer">
+                    <button pButton icon="pi pi-check" (click)="display=false; confirmed=true;" label="{{'COMMON.ENTRY_AGREEMENT' | translate}}" class="p-button-outlined"></button>
+                </ng-template>
+            </p-dialog>
+            <a class="font-medium no-underline ml-2 text-right cursor-pointer"
+               (click)="display=true"
+               style="color: var(--app-agreement-link)">{{'COMMON.USER_AGREEMENT' | translate}}</a>
+        </div>
+        <button pButton pRipple label="{{'MAIN.AUTH.LOGON' | translate}}"
+                [disabled]="form.invalid || !confirmed"
+                class="w-full p-3 text-xl" (click)="login()"></button>
+    </form>
+    <app-custom-toast></app-custom-toast>
+</div>

@@ -1,0 +1,21 @@
+<div class="field">
+  <label *ngIf="labelKey" [class.required]="required" class="group-label">
+    {{ labelKey | translate }}
+  </label>
+
+  <div class="radio-container" [class.horizontal]="layout === 'horizontal'" [class.vertical]="layout === 'vertical'">
+    <div *ngFor="let option of options" class="radio-item">
+      <p-radioButton
+        [name]="groupName"
+        [inputId]="getRadioId(option)"
+        [value]="option.value"
+        [ngModel]="value"
+        (ngModelChange)="onValueChange(option)"
+        [disabled]="disabled">
+      </p-radioButton>
+      <label [for]="getRadioId(option)" class="radio-label">
+        {{ option.label || (option.labelKey | translate) }}
+      </label>
+    </div>
+  </div>
+</div>

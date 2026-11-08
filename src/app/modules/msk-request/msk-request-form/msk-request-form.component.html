@@ -18,16 +18,12 @@
       <form #f="ngForm" (ngSubmit)="sign()" class="p-fluid" novalidate>
         <div class="formgrid grid">
           <div class="field col-12 md:col-6">
-            <label class="block mb-2" for="iin">ИИН</label>
-            <input
-              [(ngModel)]="patient.iin"
-              class="w-full"
-              id="iin"
-              name="iin"
-              pInputText
-              placeholder="031230650906"
-              type="text"
-            />
+            <app-text-input-field
+              label="ИИН"
+              [value]="patient.iin"
+              (valueChange)="patient.iin = $event"
+              placeholder="031230650906">
+            </app-text-input-field>
           </div>
 
           <div class="field col-12 md:col-6">
@@ -49,17 +45,12 @@
 
         <div class="formgrid grid">
           <div class="field col-12 md:col-6">
-            <label class="block mb-2" for="guardianIin">Индивидуальный идентификационный номер опекуна/законного
-              представителя: </label>
-            <input
-              [(ngModel)]="guardian.iin"
-              class="w-full"
-              id="guardianIin"
-              name="guardianIin"
-              pInputText
-              placeholder="031230650906"
-              type="text"
-            />
+            <app-text-input-field
+              label="Индивидуальный идентификационный номер опекуна/законного представителя"
+              [value]="guardian.iin"
+              (valueChange)="guardian.iin = $event"
+              placeholder="031230650906">
+            </app-text-input-field>
           </div>
 
           <div class="field col-12 md:col-6">
@@ -80,7 +71,7 @@
 
           <div class="field col-12 md:col-6">
             <label class="block mb-2" for="socialSecurityCode">
-              Статус факта участия (неучастия) в системе обезательного социального страхования
+              Статус факта участия (неучастия) в системе обязательного социального страхования
               – {{model?.socialSecurityCode == '1' ? 'Застрахован' : 'Не застрахован'}}
             </label>
           </div>

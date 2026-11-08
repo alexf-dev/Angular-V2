@@ -34,6 +34,11 @@ import {DropdownModule} from "primeng/dropdown";
 import {CheckboxModule} from "primeng/checkbox";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {CardModule} from "primeng/card";
+import { DropdownFieldComponent } from '../../shared/dropdown-field/dropdown-field.component';
+import { TextareaFieldComponent } from '../../shared/textarea-field/textarea-field.component';
+import { DateFieldComponent } from '../../shared/date-field/date-field.component';
+import { TextInputFieldComponent } from '../../shared/text-input-field/text-input-field.component';
+import { CheckFieldComponent } from '../../shared/check-field/check-field.component';
 
 /** ---------- Оценка состояния организма: типы/конфиг ---------- */
 type OrgCtrlType = 'select' | 'textarea' | 'checkbox';
@@ -96,7 +101,7 @@ export const uotByGroupValidator: ValidatorFn = (group: AbstractControl): Valida
   // если нет значений — убираем нашу ошибку и выходим
   if (g == null || u == null) {
     if (uCtrl?.errors?.['uotByGroup']) {
-      const {uotByGroup, ...rest} = uCtrl.errors;
+      const { uotByGroup, ...rest } = uCtrl.errors;
       uCtrl.setErrors(Object.keys(rest).length ? rest : null);
     }
     return null;
@@ -108,11 +113,11 @@ export const uotByGroupValidator: ValidatorFn = (group: AbstractControl): Valida
   else if (g === 768) ok = u >= 0 && u < 60;
 
   if (!ok) {
-    uCtrl?.setErrors({...(uCtrl.errors ?? {}), uotByGroup: true});
-    return {uotByGroup: true}; // можно и null, но так видно ошибку на группе
+    uCtrl?.setErrors({ ...(uCtrl.errors ?? {}), uotByGroup: true });
+    return { uotByGroup: true }; // можно и null, но так видно ошибку на группе
   } else {
     if (uCtrl?.errors?.['uotByGroup']) {
-      const {uotByGroup, ...rest} = uCtrl.errors;
+      const { uotByGroup, ...rest } = uCtrl.errors;
       uCtrl.setErrors(Object.keys(rest).length ? rest : null);
     }
     return null;
@@ -134,6 +139,11 @@ export const uotByGroupValidator: ValidatorFn = (group: AbstractControl): Valida
     InputTextareaModule,
     CardModule,
     FormsModule,
+    DropdownFieldComponent,
+    TextareaFieldComponent,
+    DateFieldComponent,
+    TextInputFieldComponent,
+    CheckFieldComponent,
   ],
   templateUrl: './expert-conclusion.component.html',
   styleUrls: ['./expert-conclusion.component.css'],
@@ -234,27 +244,27 @@ export class ExpertConclusionComponent implements OnInit {
     Y2: 1074,
     Y1: 1073,
     M6: 1072,
-    INDEFINITE: 1077
+    INDEFINITE: 1077,
   };
 
-  private readonly FIRST_GROUP_IDS = new Set([766, 769, 771]);
+  private readonly FIRST_GROUP_IDS = new Set([766, 769, 771, 774]);
   private readonly SECOND_GROUP_IDS = new Set([767, 772]);
   private readonly THIRD_GROUP_IDS = new Set([768, 773]);
 
   private readonly DEADLINE_DEFECT_SET_A = new Set<number>([
-    947, 948
+    947, 948,
   ]);
 
   private readonly DEADLINE_DEFECT_SET_B = new Set<number>([
-    949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962
+    949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962,
   ]);
 
   private readonly DEADLINE_DEFECT_SET_C = new Set<number>([
-    963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993
+    963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993,
   ]);
 
   private readonly DEADLINE_DEFECT_SET_D = new Set<number>([
-    14657, 938, 939, 940, 941, 942, 943, 944, 945, 946
+    14657, 938, 939, 940, 941, 942, 943, 944, 945, 946,
   ]);
 
 
@@ -666,12 +676,12 @@ export class ExpertConclusionComponent implements OnInit {
     complications: FormControl<string>;
     justification: FormControl<number | null>;
   }> = this.fb.group({
-    nameClasses: this.fb.control<number | null>(null, {validators: [Validators.required]}),
-    diseaseMkb: this.fb.control<number | null>(null, {validators: [Validators.required]}),
-    mainDiagnosis: this.fb.control<string>('', {validators: [Validators.required, Validators.minLength(10)]}),
-    comorbidId: this.fb.control<number | null>(null, {validators: [Validators.required]}),
+    nameClasses: this.fb.control<number | null>(null, { validators: [Validators.required] }),
+    diseaseMkb: this.fb.control<number | null>(null, { validators: [Validators.required] }),
+    mainDiagnosis: this.fb.control<string>('', { validators: [Validators.required, Validators.minLength(10)] }),
+    comorbidId: this.fb.control<number | null>(null, { validators: [Validators.required] }),
     complications: this.fb.control<string>(''),
-    justification: this.fb.control<number | null>(null, {validators: [Validators.required]}),
+    justification: this.fb.control<number | null>(null, { validators: [Validators.required] }),
   });
 
   readonly recommendationForms = this.fb.group({
@@ -679,28 +689,29 @@ export class ExpertConclusionComponent implements OnInit {
     socialRehabilation: this.fb.control('', Validators.required),
     profRehabilation: this.fb.control('', Validators.required),
     socOrProdRecommendationCheckbox: this.fb.control<boolean | null>(false, Validators.requiredTrue),
-    medRecommendationCheckbox: this.fb.control<boolean | null>({value: false, disabled: true}),
+    medRecommendationCheckbox: this.fb.control<boolean | null>({ value: false, disabled: true }),
     needDynamicMonitoring: this.fb.control<number | null>(null, Validators.required),
     term: this.fb.control<Date | null>(null, Validators.required),
   });
 
   readonly conclusionForm = this.fb.group<ConclusionFormModel>({
-    groupId: this.fb.control({value: null, disabled: true}),
-    temporaryDisabled: this.fb.control({value: false, disabled: true}),
-    countedFrom: this.fb.control({value: null, disabled: true}),
-    termCode: this.fb.control({value: null, disabled: true}),
-    termUntil: this.fb.control({value: null, disabled: true}),
-    reasonForm7Id: this.fb.control({value: null, disabled: true}),
-    reasonText: this.fb.control({value: null, disabled: true}),
+    groupId: this.fb.control({ value: null, disabled: true }),
+    temporaryDisabled: this.fb.control({ value: false, disabled: true }),
+    countedFrom: this.fb.control({ value: null, disabled: true }),
+    termCode: this.fb.control({ value: null, disabled: true }),
+    termUntil: this.fb.control({ value: null, disabled: true }),
+    reasonForm7Id: this.fb.control({ value: null, disabled: true }),
+    reasonText: this.fb.control({ value: null, disabled: true }),
     uotDegreeId: this.fb.control(
-      {value: null, disabled: true},
-      {validators: [Validators.required, Validators.min(0), Validators.max(100)]}
+      { value: null, disabled: true },
+      { validators: [Validators.required, Validators.min(0), Validators.max(100)] }
     ),
-    uotTermCode: this.fb.control({value: null, disabled: true}),
-    uotCountedTo: this.fb.control({value: null, disabled: true}),
-    uotCertificateDate: this.fb.control({value: null, disabled: true}),
-    reexaminationDate: this.fb.control({value: null, disabled: true}),
-  }, {validators: [uotByGroupValidator]});
+    uotTermCode: this.fb.control({ value: null, disabled: true }),
+    uotCountedTo: this.fb.control({ value: null, disabled: true }),
+    uotCertificateDate: this.fb.control({ value: null, disabled: true }),
+    reexaminationDate: this.fb.control({ value: null, disabled: true }),
+  }, { validators: [uotByGroupValidator] });
+
 
 
   readonly uptForm: FormGroup<{
@@ -732,7 +743,7 @@ export class ExpertConclusionComponent implements OnInit {
     actNumber: this.fb.control<string>(''),
     companyName: this.fb.control<string>(''),
     bin: this.fb.control<string>(''),
-    uotDegree: this.fb.control<number | null>(null, { /* при желании add: Validators.min(0), Validators.max(100) */}),
+    uotDegree: this.fb.control<number | null>(null, { /* при желании add: Validators.min(0), Validators.max(100) */ }),
     uotCountedFrom: this.fb.control<Date | null>(null),
     agreedWithDisabilityTerm: this.fb.control<boolean>(false),
     uptReasonId: this.fb.control<number | null>(null),
@@ -802,6 +813,11 @@ export class ExpertConclusionComponent implements OnInit {
       this.setSub(items[currentIndex - 1]);
     }
   }
+
+
+
+
+
 
 
   get goalControlsJustification() {
@@ -918,13 +934,13 @@ export class ExpertConclusionComponent implements OnInit {
       const shouldEnable = allowedLeafIds.has(defectId);
 
       if (shouldEnable && ctrl.disabled) {
-        ctrl.enable({emitEvent: false});
+        ctrl.enable({ emitEvent: false });
         changed = true;
       }
 
       if (!shouldEnable && ctrl.enabled) {
-        ctrl.setValue(false, {emitEvent: false});
-        ctrl.disable({emitEvent: false});
+        ctrl.setValue(false, { emitEvent: false });
+        ctrl.disable({ emitEvent: false });
         changed = true;
       }
     });
@@ -977,7 +993,7 @@ export class ExpertConclusionComponent implements OnInit {
         ];
       }
 
-      if ((hasB || hasC) && !hasD) {
+      if ((hasB || hasC) && !hasD ) {
         return [
           this.DEADLINE_IDS.Y5,
           this.DEADLINE_IDS.Y2,
@@ -995,14 +1011,12 @@ export class ExpertConclusionComponent implements OnInit {
           this.DEADLINE_IDS.Y2,
           this.DEADLINE_IDS.Y1,
           this.DEADLINE_IDS.M6,
-          this.DEADLINE_IDS.INDEFINITE
+          this.DEADLINE_IDS.INDEFINITE,
         ];
       }
 
       if (hasA || hasB) {
-        return [
-          this.DEADLINE_IDS.INDEFINITE
-        ];
+        return [this.DEADLINE_IDS.INDEFINITE];
       }
     }
 
@@ -1032,7 +1046,7 @@ export class ExpertConclusionComponent implements OnInit {
     const currentTerm = termCodeControl?.value ?? null;
 
     if (currentTerm && !allowedDeadlineIds.includes(Number(currentTerm))) {
-      termCodeControl?.setValue(null, {emitEvent: false});
+      termCodeControl?.setValue(null, { emitEvent: false });
     }
 
     // if (!currentTerm && allowedDeadlineIds.length === 1) {
@@ -1054,7 +1068,7 @@ export class ExpertConclusionComponent implements OnInit {
     const groupIdControl = this.conclusionForm.get('groupId');
 
     if (!allowedGroupIds.length) {
-      groupIdControl?.setValue(null, {emitEvent: false});
+      groupIdControl?.setValue(null, { emitEvent: false });
     }
 
     this.cdr.markForCheck();
@@ -1066,6 +1080,7 @@ export class ExpertConclusionComponent implements OnInit {
     this.updateDeadlineByIrreversibleDefectsAndGroup();
     this.cdr.markForCheck();
   }
+
 
 
   get goalControlsDefects() {
@@ -1082,14 +1097,16 @@ export class ExpertConclusionComponent implements OnInit {
   }
 
 
-  private readonly grpDisability = ['groupId', 'temporaryDisabled', 'countedFrom', 'termCode', 'termUntil', 'reasonForm7Id'];
-  private readonly grpUot = ['reasonText', 'uotDegreeId', 'uotTermCode', 'uotCountedTo', 'uotCertificateDate', 'reexaminationDate'];
+  private readonly grpDisability = ['groupId','temporaryDisabled','countedFrom','termCode','termUntil','reasonForm7Id'];
+  private readonly grpUot        = ['reasonText','uotDegreeId','uotTermCode','uotCountedTo','uotCertificateDate','reexaminationDate'];
 
 
   private toggle(names: string[], enabled: boolean): void {
-    names.forEach(n => this.conclusionForm.get(n)?.[enabled ? 'enable' : 'disable']({emitEvent: false}));
+    names.forEach(n => this.conclusionForm.get(n)?.[enabled ? 'enable' : 'disable']({ emitEvent: false }));
 
   }
+
+
 
 
   onToggleDefects(id: string) {
@@ -1098,7 +1115,7 @@ export class ExpertConclusionComponent implements OnInit {
     const onlyOne = (g: string[]) => {
       if (c[id].value && g.includes(id)) {
         g.filter(x => x !== id).forEach(x =>
-          c[x].setValue(false, {emitEvent: false})
+          c[x].setValue(false, { emitEvent: false })
         );
       }
     };
@@ -1110,7 +1127,7 @@ export class ExpertConclusionComponent implements OnInit {
     const enableNonBaseline = () => {
       Object.keys(c).forEach(k => {
         if (c[k].disabled && !this.baselineDisabledDefects.has(k)) {
-          c[k].enable({emitEvent: false});
+          c[k].enable({ emitEvent: false });
         }
       });
     };
@@ -1121,8 +1138,8 @@ export class ExpertConclusionComponent implements OnInit {
         // выбрали 929 → сбросить и отключить всех остальных
         Object.keys(c).forEach(k => {
           if (k !== '929') {
-            c[k].setValue(false, {emitEvent: false});
-            c[k].disable({emitEvent: false});
+            c[k].setValue(false, { emitEvent: false });
+            c[k].disable({ emitEvent: false });
           }
         });
       } else {
@@ -1131,7 +1148,7 @@ export class ExpertConclusionComponent implements OnInit {
       }
     } else {
       // выбрали что-то другое → снять 929, и убедиться что не-базовые доступны
-      if (c['929']?.value) c['929'].setValue(false, {emitEvent: false});
+      if (c['929']?.value) c['929'].setValue(false, { emitEvent: false });
       if (c['929']?.disabled) enableNonBaseline();
     }
 
@@ -1161,15 +1178,15 @@ export class ExpertConclusionComponent implements OnInit {
 
     this.uptForm.get('uptTermCode')!.valueChanges.subscribe((termId: number | null) => {
       const until = this.calcUptUntil(termId);
-      this.uptForm.get('uotUntil')!.setValue(until, {emitEvent: false});
+      this.uptForm.get('uotUntil')!.setValue(until, { emitEvent: false });
       this.cdr.markForCheck();
     });
 
 
     this.conclusionForm.get('groupId')?.valueChanges.subscribe((groupId: number | null) => {
       this.updateCheckboxesByGroup(groupId);
-      this.conclusionForm.get('uotDegreeId')?.updateValueAndValidity({onlySelf: true});
-      this.conclusionForm.updateValueAndValidity({onlySelf: true, emitEvent: false});
+      this.conclusionForm.get('uotDegreeId')?.updateValueAndValidity({ onlySelf: true });
+      this.conclusionForm.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
       this.updateDeadlineByIrreversibleDefectsAndGroup();
 
@@ -1202,6 +1219,7 @@ export class ExpertConclusionComponent implements OnInit {
       this.formJustification.setControl('goalsJustification', this.buildCheckboxGroup2(d));
       this.tryPatchFromDto();
       this.cdr.markForCheck();
+
 
 
       // сразу применим текущее значение, если уже есть
@@ -1242,6 +1260,7 @@ export class ExpertConclusionComponent implements OnInit {
     this.loadDict(29, 'D_CAUSE_UPT', d => (this.dicCauseUpt = d));
 
 
+
     // дефекты
 
     this.loadDict(22, 'DIC_ANATOM_DEFECTS', list => {
@@ -1278,7 +1297,7 @@ export class ExpertConclusionComponent implements OnInit {
 
     this.camundaService.getExaminationByPatientId(this.patientId).subscribe(
       list => {
-        this.examination = list;
+          this.examination = list;
       });
 
     // this.updateFilteredDisabilityGroups();
@@ -1301,8 +1320,8 @@ export class ExpertConclusionComponent implements OnInit {
 
   onGroupChange(groupId: number | null): void {
     this.updateCheckboxesByGroup(groupId);
-    this.conclusionForm.get('uotDegreeId')?.updateValueAndValidity({onlySelf: true});
-    this.conclusionForm.updateValueAndValidity({onlySelf: true, emitEvent: false});
+    this.conclusionForm.get('uotDegreeId')?.updateValueAndValidity({ onlySelf: true });
+    this.conclusionForm.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     this.updateDeadlineByIrreversibleDefectsAndGroup();
     this.cdr.markForCheck();
   }
@@ -1311,6 +1330,7 @@ export class ExpertConclusionComponent implements OnInit {
     if (!termId) return null;
 
     const d = new Date(this.examination.beginDate) // сегодня
+
 
 
     switch (termId) {
@@ -1348,11 +1368,11 @@ export class ExpertConclusionComponent implements OnInit {
     this.dictService.load(id, code).subscribe(d => assign(d ?? []));
   }
 
-  private loadDisability(code: number, patientId: number, assign: (d: DictionaryValue[]) => void) {
+  private loadDisability(code: number, patientId: number,  assign: (d: DictionaryValue[]) => void) {
     this.dictService.loadDisability(code, patientId).subscribe(d => assign(d ?? []));
   }
 
-  private loadDictWithCodeAndGroupId(id: number, code: string, groupId: number, assign: (d: DictionaryValue[]) => void) {
+  private loadDictWithCodeAndGroupId(id: number, code: string, groupId: number,  assign: (d: DictionaryValue[]) => void) {
     this.dictService.loadDictWithCodeAndGroupId(id, code, groupId).subscribe(d => assign(d ?? []));
   }
 
@@ -1365,7 +1385,7 @@ export class ExpertConclusionComponent implements OnInit {
   private buildCheckboxGroup2(list: DictionaryValue[]) {
     const g: Record<string, FormControl<boolean>> = {};
     list.forEach(x => {
-      g[String(x.id)] = new FormControl<boolean>({value: false, disabled: false});
+      g[String(x.id)] = new FormControl<boolean>({ value: false, disabled: false });
     });
     return this.fb.group(g);
   }
@@ -1380,7 +1400,7 @@ export class ExpertConclusionComponent implements OnInit {
       const code = String(x.id);
       const disabled = this.DISABLED_DEFECT_CODES.has(code);
       if (disabled) this.baselineDisabledDefects.add(code);
-      g[code] = new FormControl<boolean>({value: false, disabled});
+      g[code] = new FormControl<boolean>({ value: false, disabled });
     });
 
     return this.fb.group(g);
@@ -1399,12 +1419,12 @@ export class ExpertConclusionComponent implements OnInit {
 
       if (mustBeDisabled) {
         if (ctrl.enabled) {
-          ctrl.setValue(false, {emitEvent: false});
-          ctrl.disable({emitEvent: false});
+          ctrl.setValue(false, { emitEvent: false });
+          ctrl.disable({ emitEvent: false });
         }
       } else {
         if (ctrl.disabled) {
-          ctrl.enable({emitEvent: false});
+          ctrl.enable({ emitEvent: false });
         }
       }
     }
@@ -1477,7 +1497,10 @@ export class ExpertConclusionComponent implements OnInit {
   ]);
 
 
+
   private readonly INDEF_TERM = 1076;
+
+
 
 
   private fetchNameClasses() {
@@ -1497,7 +1520,7 @@ export class ExpertConclusionComponent implements OnInit {
         if (this.pendingMkbId != null) {
           const exists = this.mkbList.some(x => x.id === this.pendingMkbId);
           if (exists) {
-            this.diagnosisForm.patchValue({diseaseMkb: this.pendingMkbId}, {emitEvent: false});
+            this.diagnosisForm.patchValue({ diseaseMkb: this.pendingMkbId }, { emitEvent: false });
           }
           this.pendingMkbId = null;
         }
@@ -1617,10 +1640,7 @@ export class ExpertConclusionComponent implements OnInit {
     this.camundaService.getExpertOpinionByPatient(this.expertOpinionId).subscribe({
       next: (dto) => {
 
-        if (!dto) {
-          this.currentExpertId = null;
-          return;
-        }
+        if (!dto) { this.currentExpertId = null; return; }
 
         this.currentExpertId = dto.id ?? null;
 
@@ -1632,7 +1652,7 @@ export class ExpertConclusionComponent implements OnInit {
           comorbidId: dto.relatedDiseasesId ?? null,
           complications: dto.sequela ?? '',
           justification: dto.validity ?? null,
-        }, {emitEvent: false});
+        }, { emitEvent: false });
 
         this.pendingMkbId = dto.diseaseMkb != null ? Number(dto.diseaseMkb) : null;
         if (dto.nameClassesId) {
@@ -1652,9 +1672,9 @@ export class ExpertConclusionComponent implements OnInit {
           uotCountedTo: dto.uotDegreeSetTo ? new Date(dto.uotDegreeSetTo) : null,
           uotCertificateDate: dto.termUotReceived ? new Date(dto.termUotReceived) : null,
           reexaminationDate: dto.reexaminationDate ? new Date(dto.reexaminationDate) : null
-        }, {emitEvent: false});
+        }, { emitEvent: false });
 
-        this.recommendationForms.patchValue({
+        this.recommendationForms.patchValue( {
           medicalRehabilation: dto.medicalRehabilation ?? null,
           socialRehabilation: dto.socialRehabilation ?? null,
           profRehabilation: dto.profRehabilation ?? null,
@@ -1662,12 +1682,12 @@ export class ExpertConclusionComponent implements OnInit {
           socOrProdRecommendationCheckbox: dto.iprSoc ?? null,
           medRecommendationCheckbox: dto.iprMed ?? null,
           // term: dto.deadline3Id ?? null
-        }, {emitEvent: false});
+        }, { emitEvent: false });
 
         this.updateCheckboxesByGroup(dto.disabilityGroupId ?? null);
         // this.loadLimitationsByGroup(dto.disabilityGroupId ?? null);
-        this.conclusionForm.get('uotDegreeId')?.updateValueAndValidity({onlySelf: true});
-        this.conclusionForm.updateValueAndValidity({onlySelf: true, emitEvent: false});
+        this.conclusionForm.get('uotDegreeId')?.updateValueAndValidity({ onlySelf: true });
+        this.conclusionForm.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
         // readonly conclusionForm = this.fb.group({
         //   groupId: [{ value: null, disabled: true}],
@@ -1702,12 +1722,12 @@ export class ExpertConclusionComponent implements OnInit {
             extraHelpEnabled: !!u.isDvp,
             extraHelpNeedText: u.needsAddForms ?? '',
             dvpConclusion: u.conclusionDvp ?? '',
-          }, {emitEvent: false});
+          }, { emitEvent: false });
 
           if (u.addHelps?.length) {
             u.addHelps.forEach(h => {
               const dic = this.dicHelps.find(d => d.id === h.addHelpId);
-              if (dic) this.goalAddHelps[dic.id]?.setValue(true, {emitEvent: false});
+              if (dic) this.goalAddHelps[dic.id]?.setValue(true, { emitEvent: false });
             });
           }
 
@@ -1784,8 +1804,8 @@ export class ExpertConclusionComponent implements OnInit {
   }
 
   private buildRequest(): ExpertOpinionRequest {
-    const d = this.diagnosisForm.getRawValue();
-    const c = this.conclusionForm.getRawValue();
+    const d   = this.diagnosisForm.getRawValue();
+    const c   = this.conclusionForm.getRawValue();
     const rec = this.recommendationForms.getRawValue();
     const organ = this.organForm.getRawValue();
 
@@ -1846,9 +1866,9 @@ export class ExpertConclusionComponent implements OnInit {
 
       // Органные дисфункции (4 вложенных DTO из organForm)
       circulation: this.buildCirculationDysDto(organ),
-      mental: this.buildMentalDysDto(organ),
-      sensor: this.buildSensorDysDto(organ),
-      stato: this.buildStatoDysDto(organ),
+      mental:      this.buildMentalDysDto(organ),
+      sensor:      this.buildSensorDysDto(organ),
+      stato:       this.buildStatoDysDto(organ),
     };
 
     return body as ExpertOpinionRequest;
@@ -1865,7 +1885,7 @@ export class ExpertConclusionComponent implements OnInit {
       if (!directions.some(x => x.directionId === directionId)) {
         this.loadedDto.directionDtos = [
           ...directions,
-          {directionId}
+          { directionId }
         ];
       }
     } else {
@@ -1941,7 +1961,7 @@ export class ExpertConclusionComponent implements OnInit {
     Object.entries(group.controls).forEach(([k, ctrl]) => {
       if ((ctrl as FormControl<boolean>).value) {
         const id = irrev && k.startsWith('def_') ? Number(k.slice(4)) : Number(k);
-        if (Number.isFinite(id)) res.push({healthStateId: id});
+        if (Number.isFinite(id)) res.push({ healthStateId: id });
       }
     });
     return res;
@@ -1952,7 +1972,7 @@ export class ExpertConclusionComponent implements OnInit {
     Object.entries(group.controls).forEach(([code, ctrl]) => {
       if ((ctrl as FormControl<boolean>).value) {
         const dic = this.dicHelps.find(d => String(d.id) === String(code));
-        if (dic) res.push({addHelpId: dic.id});
+        if (dic) res.push({ addHelpId: dic.id });
       }
     });
     return res;
@@ -2045,6 +2065,7 @@ export class ExpertConclusionComponent implements OnInit {
     if (c) {
 
 
+
       // агрегаты и пояснения
       set('circulation', c.impairedCirculatory);
       set('reason_circulation', c.impairedCirculatoryTxt);
@@ -2078,6 +2099,7 @@ export class ExpertConclusionComponent implements OnInit {
 
       set('b515', c.digestiveDysfunction);
       set('b525', c.digestiveDysDefecation);
+
 
 
       set('excretion', c.allocationDysfunction);
@@ -2147,7 +2169,7 @@ export class ExpertConclusionComponent implements OnInit {
     const ids = new Set<number>(list.map(x => Number(x?.healthStateId)).filter(Number.isFinite));
     Object.keys(group.controls).forEach(k => {
       const id = Number(k);
-      (group.get(k) as FormControl<boolean>)?.setValue(ids.has(id), {emitEvent: false});
+      (group.get(k) as FormControl<boolean>)?.setValue(ids.has(id), { emitEvent: false });
     });
   }
 
@@ -2167,76 +2189,77 @@ export class ExpertConclusionComponent implements OnInit {
       const ctrl = group.get(k) as FormControl<boolean>;
       const val = ids.has(idStr);
 
-      ctrl?.setValue(val, {emitEvent: false});
+      ctrl?.setValue(val, { emitEvent: false });
     });
   }
 
-  private buildStatoDysDto(o: Record<string, any>): StatoDysDto {
+  private buildStatoDysDto(o: Record<string, any>): StatoDysDto  {
     const id = (k: string) => this.toLongOrNull(o[k]);  // FK поля (Long)
     const ii = (k: string) => this.toIntOrNull(o[k]);   // числовые без FK (Integer)
 
     return {
       // FK (D_LEVEL_RATING)
-      motorFunctionsHead: id('head'),
-      torso: id('trunk'),
-      limbs: id('limbs'),
-      statics: id('standing'),
-      coordinationMovements: id('coord_dynamic'),
+      motorFunctionsHead:      id('head'),
+      torso:                   id('trunk'),
+      limbs:                   id('limbs'),
+      statics:                 id('standing'),
+      coordinationMovements:   id('coord_dynamic'),
 
       // head*
-      headJoint: ii('b710_head'),
-      headMuscleStrength: ii('b730_head'),
+      headJoint:               ii('b710_head'),
+      headMuscleStrength:      ii('b730_head'),
       headInvoluntaryMotorForce: ii('b755_head'),
       headVoluntaryMotorForce: ii('b760_head'),
 
       // torso*
-      torsoJoint: ii('b710_trunk'),
-      torsoMuscleStrength: ii('b730_trunk'),
+      torsoJoint:              ii('b710_trunk'),
+      torsoMuscleStrength:     ii('b730_trunk'),
       torsoInvoluntaryMotorForce: ii('b755_trunk'),
       torsoVoluntaryMotorForce: ii('b760_trunk'),
 
 
       // limbs*
-      limbsJoint: ii('b710_limbs'),
-      limbsMuscleStrength: ii('b730_limbs'),
+      limbsJoint:              ii('b710_limbs'),
+      limbsMuscleStrength:     ii('b730_limbs'),
       limbsInvoluntaryMotorForce: ii('b755_limbs'),
       limbsVoluntaryMotorForce: ii('b760_limbs'),
 
       // coordination*
-      coordinationMuscleTone: ii('b735_tone'),
+      coordinationMuscleTone:        ii('b735_tone'),
       coordinationInvoluntaryMotorForce: ii('b755_limbs2'),
-      coordinationVoluntaryMotorForce: ii('b760_coord'),
+      coordinationVoluntaryMotorForce:   ii('b760_coord'),
 
       // standing*
-      staticsJoint: ii('standing_b710'),
-      staticsMuscleStrength: ii('standing_b730'),
+      staticsJoint:            ii('standing_b710'),
+      staticsMuscleStrength:   ii('standing_b730'),
       staticsVoluntaryMotorForce: ii('standing_b760'),
 
 
+
       // Показатели которых нет в форме — оставляем null:
-      limbsMuscleTone: null,
-      limbsMotorReflex: null,
-      limbsHeadAndNeckArea: ii('s710'),
-      limbsTorso: ii('s720'),
-      limbsUpperLimbs: ii('s730'),
-      limbsLowerLimbs: ii('s750'),
-      limbsShoulderArea: ii('s720b'),
-      limbsPelvicArea: ii('s740')
+      limbsMuscleTone:         null,
+      limbsMotorReflex:        null,
+      limbsHeadAndNeckArea:    ii('s710'),
+      limbsTorso:              ii('s720'),
+      limbsUpperLimbs:         ii('s730'),
+      limbsLowerLimbs:         ii('s750'),
+      limbsShoulderArea:       ii('s720b'),
+      limbsPelvicArea:         ii('s740')
     };
   }
 
-  private buildSensorDysDto(o: Record<string, any>): SensorDysDto {
+  private buildSensorDysDto(o: Record<string, any>): SensorDysDto  {
     const id = (k: string) => this.toLongOrNull(o[k]);
     return {
-      visionId: id('b210'),
-      hearingId: id('b230'),
-      smellId: id('b255'),
-      touchId: id('b265'),
+      visionId:               id('b210'),
+      hearingId:              id('b230'),
+      smellId:                id('b255'),
+      touchId:                id('b265'),
       sensitivityDisordersId: id('b270'),
     };
   }
 
-  private buildMentalDysDto(o: Record<string, any>): MentalDysDto {
+  private buildMentalDysDto(o: Record<string, any>): MentalDysDto  {
     const id = (k: string) => this.toLongOrNull(o[k]);
     const ii = (k: string) => this.toIntOrNull(o[k]);
 
@@ -2257,71 +2280,71 @@ export class ExpertConclusionComponent implements OnInit {
 
   }
 
-  private buildCirculationDysDto(o: Record<string, any>): CirculationDysDto {
+  private buildCirculationDysDto(o: Record<string, any>): CirculationDysDto  {
     const v = (k: string) => this.toIntOrNull(o[k]);
     const s = (k: string) => this.nullIfEmpty(o[k]) ?? null;
 
     // агрегаты (если нет явного общего селекта — берём максимум из детальных)
-    const digestiveAgg = this.maxOrNull([v('b515'), v('b525')]);
-    const allocationAgg = this.maxOrNull([v('excretion'), v('b525_ex'), v('b620')]); // есть общий excretion
-    const metabolismAgg = this.maxOrNull([v('energy'), v('b540'), v('b555')]);       // есть общий energy
-    const internalAgg = this.maxOrNull([v('secretion'), v('b540_1'), v('b555_2')]); // общий secretion
-    const immunityAgg = this.maxOrNull([v('immunity'), v('b435'), v('b555_3')]);    // общий immunity
+    const digestiveAgg   = this.maxOrNull([v('b515'), v('b525')]);
+    const allocationAgg  = this.maxOrNull([v('excretion'), v('b525_ex'), v('b620')]); // есть общий excretion
+    const metabolismAgg  = this.maxOrNull([v('energy'), v('b540'), v('b555')]);       // есть общий energy
+    const internalAgg    = this.maxOrNull([v('secretion'), v('b540_1'), v('b555_2')]); // общий secretion
+    const immunityAgg    = this.maxOrNull([v('immunity'), v('b435'), v('b555_3')]);    // общий immunity
 
     return {
       // агрегаты-флаги/оценки
-      impairedCirculatory: v('circulation'),
-      impairedCirculatoryTxt: s('reason_circulation'),
+      impairedCirculatory:     v('circulation'),
+      impairedCirculatoryTxt:  s('reason_circulation'),
 
-      respiratoryDysfunction: v('b440_resp'),
-      respiratoryDysTxt: s('reason_respiration'),
+      respiratoryDysfunction:  v('b440_resp'),
+      respiratoryDysTxt:       s('reason_respiration'),
 
-      digestiveDysfunction: digestiveAgg,
-      digestiveDysTxt: s('reason_digest'),
+      digestiveDysfunction:    digestiveAgg,
+      digestiveDysTxt:         s('reason_digest'),
 
-      allocationDysfunction: allocationAgg,
-      allocationDysTxt: s('reason_excretion'),
+      allocationDysfunction:   allocationAgg,
+      allocationDysTxt:        s('reason_excretion'),
 
-      dysfunctionMetabolism: metabolismAgg,
-      dysfunctionMetTxt: s('reason_met'),
+      dysfunctionMetabolism:   metabolismAgg,
+      dysfunctionMetTxt:       s('reason_met'),
 
       hematopoieticDysfunction: v('b430'),
-      hematopoieticDysTxt: null, // отдельного textarea под кровь нет
+      hematopoieticDysTxt:      null, // отдельного textarea под кровь нет
 
-      dysfunctionInternal: internalAgg,
-      dysfunctionInternalTxt: s('reason_secretion'),
+      dysfunctionInternal:     internalAgg,
+      dysfunctionInternalTxt:  s('reason_secretion'),
 
-      immunityImpairment: immunityAgg,
-      immunityImpairmentTxt: s('reason_immunity'),
+      immunityImpairment:      immunityAgg,
+      immunityImpairmentTxt:   s('reason_immunity'),
 
-      additionalInformation: this.maxOrNull([v('other_fn'), v('other_add')]),
+      additionalInformation:   this.maxOrNull([v('other_fn'), v('other_add')]),
       additionalInformationTxt: s('expert_justify'),
 
       // детализация (прямые соответствия кодам)
-      circulatoryDysHeart: v('b410'),
-      circulatoryDysBloodvVessels: v('b415'),
-      circulatoryDysBloodPressure: v('b420'),
-      circulatoryDysBloodSystem: v('b430'),
-      circulatoryDysBreath: v('b440'),
+      circulatoryDysHeart:           v('b410'),
+      circulatoryDysBloodvVessels:   v('b415'),
+      circulatoryDysBloodPressure:   v('b420'),
+      circulatoryDysBloodSystem:     v('b430'),
+      circulatoryDysBreath:          v('b440'),
 
-      respiratoryDysBreath: v('b440_resp'),
+      respiratoryDysBreath:          v('b440_resp'),
 
-      digestiveDysDefecation: v('b525'),
-      allocationDysDefecation: v('b525_ex'),
-      allocationDysUrination: v('b620'),
+      digestiveDysDefecation:        v('b525'),
+      allocationDysDefecation:       v('b525_ex'),
+      allocationDysUrination:        v('b620'),
 
-      metabolismDysGeneralMetabolic: v('b540'),
-      metabolismDysEndocoryneGlands: v('b555'),
+      metabolismDysGeneralMetabolic:       v('b540'),
+      metabolismDysEndocoryneGlands:       v('b555'),
 
       internalSecretionDysGeneralMetabolic: v('b540_1'),
       internalSecretionDysEndocoryneGlands: v('b555_2'),
 
-      immunityImpairmentDysImmunity: v('b435'),
+      immunityImpairmentDysImmunity:        v('b435'),
       immunityImpairmentDysEndocoryneGlands: v('b555_3'),
     };
   }
 
-  private buildUptDataDto(): UptDataDto {
+  private buildUptDataDto(): UptDataDto  {
     const u = this.uptForm.getRawValue();
 
     return {
@@ -2368,17 +2391,17 @@ export class ExpertConclusionComponent implements OnInit {
     if (Number.isNaN(+dt)) return null;
     return dt.toISOString().slice(0, 10); // yyyy-MM-dd
   }
-
   private toNum(v: any): number | null {
     const n = Number(v);
     return Number.isFinite(n) ? n : null;
   }
-
   private toStr(v: any): string | null {
     if (v == null) return null;
     const s = String(v).trim();
     return s ? s : null;
   }
+
+
 
 
   /** трекеры/хелперы для шаблона */

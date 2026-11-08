@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   catchError,
@@ -60,7 +60,11 @@ export class AuthService {
     this.restoreProfileFromStorage();
   }
 
-  login(username: string, password: string, signedXml?: string): Observable<any> {
+  login(
+    username: string,
+    password: string,
+    signedXml?: string
+  ): Observable<any> {
     const body = new URLSearchParams();
 
     body.set('username', username);
@@ -70,20 +74,15 @@ export class AuthService {
       body.set('customParam', signedXml);
     }
 
-    return this.http.post<AuthResponse>(
-      this.loginUrl, body.toString(),
+    return this.http.post<any>(
+      this.loginUrl,
+      body.toString(),
       {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }
-    ).pipe(
-      tap(response => {
-        if (!this.setTokensFromResponse(response)) {
-          throw new Error('Access token отсутствует');
-        }
-      })
     );
   }
 
@@ -96,7 +95,7 @@ export class AuthService {
 
     return this.http.post<AuthResponse>(
       this.refreshTokenUrl,
-      {refreshToken},
+      { refreshToken },
       {
         withCredentials: true,
         headers: {
@@ -156,11 +155,9 @@ export class AuthService {
     }
 
     return this.http.get<any>(this.apiMeUrl).pipe(
-      tap(profile => this.setProfile(profile)),
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 || error.status === 403) {
-          this.setProfile(null);
-        }
+      tap((profile) => this.setProfile(profile)),
+      catchError((error) => {
+        this.setProfile(null);
         return throwError(() => error);
       })
     );
@@ -217,10 +214,14 @@ export class AuthService {
     return roles.some((role) => userRoles.includes(role));
   }
 
-  changePass(username: string, oldPassword: string, newPassword: string): Observable<any> {
+  changePass(
+    username: string,
+    oldPassword: string,
+    newPassword: string
+  ): Observable<any> {
     return this.http.post(
       this.changePassUrl,
-      {username, oldPassword, newPassword},
+      { username, oldPassword, newPassword },
       {
         withCredentials: true,
         headers: {
@@ -230,10 +231,15 @@ export class AuthService {
     );
   }
 
-  changePassEds(username: string, oldPassword: string, newPassword: string, signedXml: string): Observable<any> {
+  changePassEds(
+    username: string,
+    oldPassword: string,
+    newPassword: string,
+    signedXml: string
+  ): Observable<any> {
     return this.http.post(
       this.changePassEdsUrl,
-      {username, oldPassword, newPassword, signedXml},
+      { username, oldPassword, newPassword, signedXml },
       {
         withCredentials: true,
         headers: {
@@ -243,10 +249,13 @@ export class AuthService {
     );
   }
 
-  checkLoginPass(username: string, password: string): Observable<any> {
+  checkLoginPass(
+    username: string,
+    password: string
+  ): Observable<any> {
     return this.http.post(
       this.checkLoginPassUrl,
-      {username, password},
+      { username, password },
       {
         withCredentials: true,
         headers: {
@@ -256,7 +265,10 @@ export class AuthService {
     );
   }
 
-  checkSign(username: string, signedXml: string): Observable<any> {
+  checkSign(
+    username: string,
+    signedXml: string
+  ): Observable<any> {
     return this.http.post(
       this.checkSignUrl,
       {
@@ -275,7 +287,7 @@ export class AuthService {
   isTwoFactorAuthorization(): Observable<any> {
     return this.http.get(
       this.isTwoFactorUrl,
-      {withCredentials: true}
+      { withCredentials: true }
     );
   }
 
@@ -299,9 +311,19 @@ export class AuthService {
       throw new Error('Некорректный JWT');
     }
 
-    let base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    base64 = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
-    const bytes = Uint8Array.from(atob(base64), (character) => character.charCodeAt(0));
+    let base64 = parts[1]
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+
+    base64 = base64.padEnd(
+      base64.length + ((4 - (base64.length % 4)) % 4),
+      '='
+    );
+
+    const bytes = Uint8Array.from(
+      atob(base64),
+      (character) => character.charCodeAt(0)
+    );
 
     return JSON.parse(new TextDecoder().decode(bytes));
   }

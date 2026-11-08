@@ -7,188 +7,118 @@
 
       <div class="formgrid grid p-fluid">
         <div class="field col-12 md:col-4">
-          <label for="lastName">
-            {{ 'MAIN.EXAMINATION.REG_DATA.LASTNAME' | translate }}
-          </label>
-          <input
-            [(ngModel)]="patient.personId.surname"
-            class="readonly-field"
-            id="lastName"
-            name="lastName"
-            pInputText
-            readonly
-            type="text"
-          />
+          <app-text-input-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.LASTNAME"
+            [value]="patient.personId.surname"
+            (valueChange)="patient.personId.surname = $event"
+            [readonly]="true">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="firstName">
-            {{ 'MAIN.EXAMINATION.REG_DATA.FIRSTNAME' | translate }}
-          </label>
-          <input
-            [(ngModel)]="patient.personId.firstName"
-            class="readonly-field"
-            id="firstName"
-            name="firstName"
-            pInputText
-            readonly
-            type="text"
-          />
+          <app-text-input-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.FIRSTNAME"
+            [value]="patient.personId.firstName"
+            (valueChange)="patient.personId.firstName = $event"
+            [readonly]="true">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="middleName">
-            {{ 'MAIN.EXAMINATION.REG_DATA.MIDDLENAME' | translate }}
-          </label>
-          <input
-            [(ngModel)]="patient.personId.secondName"
-            class="readonly-field"
-            id="middleName"
-            name="middleName"
-            pInputText
-            readonly
-            type="text"
-          />
+          <app-text-input-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.MIDDLENAME"
+            [value]="patient.personId.secondName"
+            (valueChange)="patient.personId.secondName = $event"
+            [readonly]="true">
+          </app-text-input-field>
         </div>
       </div>
 
       <div class="formgrid grid p-fluid">
         <div class="field col-12 md:col-4">
-          <label for="birthDate">
-            {{ 'MAIN.EXAMINATION.REG_DATA.BIRTH_DATE' | translate }}
-          </label>
-          <p-calendar
-            [(ngModel)]="patient.personId.birthDate"
-            [disabled]="true"
-            [showIcon]="true"
-            appendTo="body"
+          <app-date-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.BIRTH_DATE"
+            [value]="patient.personId.birthDate"
+            (valueChange)="patient.personId.birthDate = $event"
             dateFormat="yy-mm-dd"
-            id="birthDate"
-            name="birthDate"
-          ></p-calendar>
+            [disabled]="true">
+          </app-date-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="iin">
-            {{ 'MAIN.EXAMINATION.REG_DATA.IIN' | translate }}
-          </label>
-          <input
-            [(ngModel)]="patient.personId.iin"
-            class="readonly-field"
-            id="iin"
-            name="iin"
-            pInputText
-            readonly
-            type="text"
-          />
+          <app-text-input-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.IIN"
+            [value]="patient.personId.iin"
+            (valueChange)="patient.personId.iin = $event"
+            [readonly]="true">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="gender">
-            {{ 'MAIN.EXAMINATION.REG_DATA.GENDER' | translate }}
-          </label>
-          <p-dropdown
-            [(ngModel)]="patient.personId.sex.id"
-            [disabled]="true"
+          <app-dropdown-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.GENDER"
             [options]="dicGenders"
-            id="gender"
-            name="gender"
             optionValue="id"
-            placeholder="{{ 'COMMON.CHOOSE' | translate }}"
-          >
-            <ng-template let-item pTemplate="item">
-              <div>{{ item | translateDictionary }}</div>
-            </ng-template>
-            <ng-template let-selectedItem pTemplate="selectedItem">
-              <div *ngIf="selectedItem">{{ selectedItem | translateDictionary }}</div>
-              <span *ngIf="!selectedItem">{{ 'COMMON.CHOOSE' | translate }}</span>
-            </ng-template>
-          </p-dropdown>
+            optionLabel="nameRu"
+            [dictionaryMode]="true"
+            [value]="patient.personId.sex.id"
+            (valueChange)="patient.personId.sex.id = $event"
+            [disabled]="true"
+            placeholderKey="COMMON.CHOOSE">
+          </app-dropdown-field>
         </div>
       </div>
 
       <div class="formgrid grid p-fluid">
         <div class="field col-12">
-          <label for="phone">
-            {{ 'MAIN.EXAMINATION.REG_DATA.CONTACT_DETAILS' | translate }}
-          </label>
-          <input
-            [(ngModel)]="patient.phone"
-            class="readonly-field"
-            id="phone"
-            name="phone"
-            pInputText
-            readonly
-            type="text"
-          />
+          <app-text-input-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.CONTACT_DETAILS"
+            [value]="patient.phone"
+            (valueChange)="patient.phone = $event"
+            [readonly]="true">
+          </app-text-input-field>
         </div>
       </div>
 
       <div class="formgrid grid p-fluid">
-        <div class="field col-12 md:col-6 flex align-items-center">
-          <p-checkbox
-            [(ngModel)]="patient.isTown"
-            [binary]="true"
-            inputId="isTown"
-            name="isTown"
-          ></p-checkbox>
-          <label class="ml-2" for="isTown">
-            {{ 'MAIN.EXAMINATION.REG_DATA.IS_TOWN' | translate }}
-          </label>
+        <div class="field col-12 md:col-6">
+          <app-check-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.IS_TOWN"
+            [checked]="patient.isTown"
+            (checkedChange)="patient.isTown = $event">
+          </app-check-field>
         </div>
       </div>
 
       <div class="formgrid grid p-fluid">
         <div class="field col-12 md:col-4">
-          <label for="regAddress">
-            {{ 'MAIN.EXAMINATION.REG_DATA.REG_ADDRESS' | translate }}
-          </label>
-          <input
+          <app-text-input-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.REG_ADDRESS"
             [value]="getAddressString(patient.personId.addresses)"
-            class="readonly-field"
-            id="regAddress"
-            name="regAddress"
-            pInputText
-            readonly
-            type="text"
-          />
+            [readonly]="true">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="actualAddress">
-            {{ 'MAIN.EXAMINATION.REG_DATA.ACTUAL_ADDRESS' | translate }}
-          </label>
-          <input
-            [(ngModel)]="patient.factAddress"
-            id="actualAddress"
-            name="actualAddress"
-            pInputText
-            type="text"
-          />
+          <app-text-input-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.ACTUAL_ADDRESS"
+            [value]="patient.factAddress"
+            (valueChange)="patient.factAddress = $event">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="dicAddress">
-            {{ 'MAIN.EXAMINATION.REG_DATA.DIC_ADDRESS' | translate }}
-          </label>
-          <p-dropdown
-            [(ngModel)]="patient.districtId"
+          <app-dropdown-field
+            labelKey="MAIN.EXAMINATION.REG_DATA.DIC_ADDRESS"
             [options]="dicDistricts"
-            [required]="true"
-            [showClear]="true"
-            id="dicAddress"
-            name="dicAddress"
             optionValue="id"
-            placeholder="{{ 'COMMON.CHOOSE' | translate }}"
-          >
-            <ng-template let-item pTemplate="item">
-              <div>{{ item | translateDictionary }}</div>
-            </ng-template>
-            <ng-template let-selectedItem pTemplate="selectedItem">
-              <div *ngIf="selectedItem">{{ selectedItem | translateDictionary }}</div>
-              <span *ngIf="!selectedItem">{{ 'COMMON.CHOOSE' | translate }}</span>
-            </ng-template>
-          </p-dropdown>
+            optionLabel="nameRu"
+            [dictionaryMode]="true"
+            [value]="patient.districtId"
+            (valueChange)="patient.districtId = $event"
+            [required]="true"
+            placeholderKey="COMMON.CHOOSE">
+          </app-dropdown-field>
         </div>
       </div>
     </p-card>
@@ -198,8 +128,8 @@
         (click)="onNext()"
         label="{{ 'COMMON.NEXT' | translate }}"
         pButton
-        type="button"
-      ></button>
+        type="button">
+      </button>
     </div>
   </div>
 </div>

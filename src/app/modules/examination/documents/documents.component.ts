@@ -17,6 +17,8 @@ import {AccordionModule} from "primeng/accordion";
 import {AdditionalDocumentsComponent} from "./additional-documents/additional-documents.component";
 import {IdentityCardComponent} from "./identity-card/identity-card.component";
 import {FormDocumentsComponent} from "./form-documents/form-documents.component";
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { DateFieldComponent } from '@shared/date-field/date-field.component';
 
 type Consultation = { title: string; date: string; org: string; selected?: boolean; };
 
@@ -51,7 +53,9 @@ type MandatoryRow = {
     NgForOf,
     AdditionalDocumentsComponent,
     IdentityCardComponent,
-    FormDocumentsComponent
+    FormDocumentsComponent,
+    TextInputFieldComponent,
+    DateFieldComponent
   ],
   templateUrl: './documents.component.html',
   styleUrl: './documents.component.css'

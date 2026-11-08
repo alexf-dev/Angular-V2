@@ -10,6 +10,7 @@ import {ExpertOpinionOmk} from "../../../dto/omk/expert-opinion-omk";
 import {ReexaminationAppealUpdate} from "../../../dto/omk/reexamination-appeal-update";
 import {AuthService} from "../../../core/service/auth.service";
 import {Router} from "@angular/router";
+import { RadioOption } from '../../shared/radio-group-field/radio-group-field.component';
 
 @Component({
   selector: 'app-committee-request-form',
@@ -21,6 +22,11 @@ export class CommitteeRequestFormComponent implements OnInit {
   @Input() appeal: any;
   @Input() reExaminationAppealDto!: ReexaminationAppealDto;
   @Input() expertOpinion: ExpertOpinionOmk | null = null;
+
+  decisionOptions: RadioOption[] = [
+    { value: 15139, labelKey: 'OMK.REEXAMINATION.SEND_OMK' },
+    { value: 15137, labelKey: 'OMK.REEXAMINATION.CANCELLED' }
+  ];
 
   selectedComplaintIds: number[] = [];
   loadingPdf = false;

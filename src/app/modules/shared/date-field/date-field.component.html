@@ -1,0 +1,44 @@
+<div [class.field]="true" [class.stacked]="stacked" [class.inline]="!stacked">
+  <label
+    *ngIf="labelKey"
+    [for]="calendarId"
+    [class.required]="required">
+    {{ labelKey | translate }}
+  </label>
+
+  <p-calendar
+    *ngIf="control; else ngModelCalendar"
+    [inputId]="calendarId"
+    [formControl]="$any(control)"
+    [disabled]="disabled"
+    [dateFormat]="dateFormat"
+    [showIcon]="showIcon"
+    [showTime]="showTime"
+    [hourFormat]="hourFormat"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    [appendTo]="'body'"
+    [style]="{'width': '100%'}"
+    [readonlyInput]="readonlyInput"
+    [showOnFocus]="true">
+  </p-calendar>
+
+  <ng-template #ngModelCalendar>
+    <p-calendar
+      [inputId]="calendarId"
+      [ngModel]="value"
+      (ngModelChange)="onValue($event)"
+      [dateFormat]="dateFormat"
+      [showIcon]="showIcon"
+      [showTime]="showTime"
+      [hourFormat]="hourFormat"
+      [disabled]="disabled"
+      [minDate]="minDate"
+      [maxDate]="maxDate"
+      [appendTo]="'body'"
+      [style]="{'width': '100%'}"
+      [readonlyInput]="readonlyInput"
+      [showOnFocus]="true">
+    </p-calendar>
+  </ng-template>
+</div>

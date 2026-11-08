@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+.field {
+  margin-bottom: 1rem;
+
+  &.stacked {
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+
+      &.required::after {
+        content: ' *';
+        color: var(--app-danger-text, #ef4444);
+      }
+    }
+  }
+
+  &.inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    label {
+      flex-shrink: 0;
+      width: 200px;
+      font-weight: 500;
+
+      &.required::after {
+        content: ' *';
+        color: var(--app-danger-text, #ef4444);
+      }
+    }
+
+    p-dropdown {
+      flex: 1;
+    }
+  }
+}
+
+::ng-deep {
+  .p-dropdown {
+    width: 100%;
+
+    .p-dropdown-label {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .p-dropdown-trigger {
+      width: 2.5rem;
+    }
+  }
+
+  .p-dropdown-panel {
+    .p-dropdown-items {
+      .p-dropdown-item {
+        padding: 0.5rem 0.75rem;
+
+        &:hover {
+          background: var(--app-hover-bg, #f3f4f6);
+        }
+
+        &.p-highlight {
+          background: var(--primary-color, #3b82f6);
+          color: white;
+        }
+      }
+    }
+  }
+}

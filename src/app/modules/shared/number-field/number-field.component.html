@@ -1,0 +1,23 @@
+<div [class.field]="true" [class.stacked]="stacked" [class.inline]="!stacked">
+  <label
+    *ngIf="labelKey"
+    [for]="inputId"
+    [class.required]="required">
+    {{ labelKey | translate }}
+  </label>
+
+  <p-inputNumber
+    [inputId]="inputId"
+    [ngModel]="value"
+    (ngModelChange)="onValue($event)"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [mode]="mode"
+    [showButtons]="showButtons"
+    [buttonLayout]="buttonLayout"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    [style]="{'width': '100%'}">
+  </p-inputNumber>
+</div>

@@ -1,82 +1,43 @@
 <div class="grid">
   <div class="col-12">
 
-    <p-card styleClass="mb-4 cbdi-filter-card">
+    <p-card styleClass="mb-4">
       <ng-template pTemplate="title">
         {{ 'APPROVAL_JOURNAL.TITLE' | translate }}
       </ng-template>
 
       <div class="formgrid grid">
         <div class="field col-12 md:col-3">
-          <label for="iin" class="block mb-2 font-bold">
-            {{ 'COMMON.IIN' | translate }}
-          </label>
-
-          <input
-            id="iin"
-            type="text"
-            pInputText
-            class="w-full"
-            [placeholder]="'COMMON.IIN' | translate"
-          />
+          <app-text-input-field
+            labelKey="COMMON.IIN"
+            placeholderKey="COMMON.IIN">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-3">
-          <label for="status" class="block mb-2 font-bold">
-            {{ 'COMMON.STATUS' | translate }}
-          </label>
-
-          <p-dropdown
-            id="status"
+          <app-dropdown-field
+            labelKey="COMMON.STATUS"
             [options]="statusOptions"
-            optionLabel="nameRu"
             optionValue="id"
-            [placeholder]="'COMMON.STATUS' | translate"
-            class="w-full full-dropdown"
-          >
-            <ng-template let-item pTemplate="item">
-              <div>{{ item | translateDictionary }}</div>
-            </ng-template>
-
-            <ng-template let-selectedItem pTemplate="selectedItem">
-              <div *ngIf="selectedItem">
-                {{ selectedItem | translateDictionary }}
-              </div>
-              <span *ngIf="!selectedItem">
-                {{ 'COMMON.CHOOSE' | translate }}
-              </span>
-            </ng-template>
-          </p-dropdown>
+            optionLabel="nameRu"
+            [dictionaryMode]="true"
+            placeholderKey="COMMON.STATUS">
+          </app-dropdown-field>
         </div>
 
         <div class="field col-12 md:col-3">
-          <label for="dateFrom" class="block mb-2 font-bold">
-            {{ 'COMMON.DATE_FROM' | translate }}
-          </label>
-          <p-calendar
-            [showIcon]="true"
-            appendTo="body"
-            dateFormat="dd.mm.yy"
-            id="dateFrom"
-            name="dateFrom"
-            class="w-full custom-calendar"
-          ></p-calendar>
+          <app-date-field
+            labelKey="COMMON.DATE_FROM"
+            dateFormat="dd.mm.yy">
+          </app-date-field>
         </div>
 
         <div class="field col-12 md:col-3">
-          <label for="dateTo" class="block mb-2 font-bold">
-            {{ 'COMMON.DATE_TO' | translate }}
-          </label>
-          <p-calendar
-            [showIcon]="true"
-            appendTo="body"
-            dateFormat="dd.mm.yy"
-            id="dateTo"
-            name="dateTo"
-            class="w-full custom-calendar"
-          ></p-calendar>
+          <app-date-field
+            labelKey="COMMON.DATE_TO"
+            dateFormat="dd.mm.yy">
+          </app-date-field>
         </div>
-
       </div>
 
       <div class="flex gap-2">
@@ -102,7 +63,7 @@
   </div>
 
   <div class="col-12">
-    <p-card styleClass="cbdi-result-card">
+    <p-card>
       <ng-template pTemplate="title">
         <div class="flex justify-content-between align-items-center w-full">
           <span>Результат поиска </span>
@@ -110,80 +71,20 @@
         </div>
       </ng-template>
 
-      <p-table
-        [value]="journalApprovalResponse"
-        [responsiveLayout]="'scroll'"
-        [paginator]="true"
-        [lazy]="true"
-        [rows]="approvalLogFilter.pageSize"
-        [first]="((approvalLogFilter.pageNum || 1) - 1) * (approvalLogFilter.pageSize || 10)"
+      <app-data-table
+        [data]="journalApprovalResponse"
+        [columns]="columns"
+        [pageSize]="approvalLogFilter.pageSize"
         [totalRecords]="pageResponse?.total || 0"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        (onLazyLoad)="onPageChange($event)"
-        styleClass="p-datatable-sm"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th>{{ 'APPROVAL_JOURNAL.PATIENT' | translate }}</th>
-            <th>{{ 'COMMON.BIRTH_DATE' | translate }}</th>
-            <th>{{ 'MAIN.HISTORY.EXAM_DIRECTION' | translate }}</th>
-            <th>{{ 'APPROVAL_JOURNAL.BEGIN_DATE' | translate }}</th>
-            <!--            <th>{{ 'APPROVAL_JOURNAL.DECISION_CHIEF' | translate }}</th>-->
-            <th>{{ 'APPROVAL_JOURNAL.CREATE_DATE' | translate }}</th>
-            <th>{{ 'APPROVAL_JOURNAL.EXPERT' | translate }}</th>
-            <th>{{ 'COMMON.ACTION' | translate }}</th>
-          </tr>
-        </ng-template>
+        [currentPage]="approvalLogFilter.pageNum"
+        [rowsPerPageOptions]="rowsPerPageOptions"
+        [showActions]="false"
+        [totalLabel]="''"
+        [totalLabelKey]="''"
+        [emptyMessage]="'COMMON.NOT_FOUND2' | translate"
+        (pageChange)="onPageChange($event)">
+      </app-data-table>
 
-        <ng-template pTemplate="body" let-row let-expanded="expanded">
-          <tr>
-
-            <td>{{ row.patient }}</td>
-            <td>{{ (row?.birthDate | date:'dd.MM.yyyy') || '-' }}</td>
-            <td>{{ getCondition(row.conditionKz, row.conditionRu) }}</td>
-            <td>{{ (row?.beginDate | date:'dd.MM.yyyy') || '-' }}</td>
-            <td>{{ (row?.createDate | date:'dd.MM.yyyy') || '-' }}</td>
-            <td>{{ row.expert }}</td>
-            <td>
-              <div class="flex align-items-center gap-2">
-                <!--                <button pButton-->
-                <!--                        type="button"-->
-                <!--                        icon="pi pi-user-minus"-->
-                <!--                        class="p-button-rounded p-button-text p-button-secondary"-->
-                <!--                        [pTooltip]="'APPROVAL_JOURNAL.APPROVE' | translate"-->
-                <!--                        tooltipPosition="top"-->
-                <!--                ></button>-->
-                <button
-                  *ngIf="(authService.hasAction('MSE_EDIT') &&(row.statusId === 2111 || row.statusId === 2113)) ||
-                  (authService.hasAction('MSE_HEAD_EDIT') && row.statusId === 2114)"
-                  pButton
-                  type="button"
-                  label="Подписать"
-                  icon="pi pi-pencil"
-                  (click)="selectSignType(row)">
-                </button>
-
-                <button
-                  *ngIf="authService.hasAction('MSE_HEAD_EDIT') && row.statusId === 15198"
-                  pButton
-                  type="button"
-                  label="Верификация"
-                  icon="pi pi-camera"
-                  (click)="openPhotoVerification(row)">
-                </button>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="11" class="text-center py-4">
-              {{ 'COMMON.NOT_FOUND2' | translate }}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
       <p-confirmDialog></p-confirmDialog>
     </p-card>
   </div>
@@ -248,4 +149,41 @@
 
 </div>
 
+<ng-template #birthDateTemplate let-row>
+  {{ (row?.birthDate | date:'dd.MM.yyyy') || '-' }}
+</ng-template>
 
+<ng-template #conditionTemplate let-row>
+  {{ getCondition(row.conditionKz, row.conditionRu) }}
+</ng-template>
+
+<ng-template #beginDateTemplate let-row>
+  {{ (row?.beginDate | date:'dd.MM.yyyy') || '-' }}
+</ng-template>
+
+<ng-template #createDateTemplate let-row>
+  {{ (row?.createDate | date:'dd.MM.yyyy') || '-' }}
+</ng-template>
+
+<ng-template #actionsTemplate let-row>
+  <div class="flex align-items-center gap-2">
+    <button
+      *ngIf="(authService.hasAction('MSE_EDIT') &&(row.statusId === 2111 || row.statusId === 2113)) ||
+      (authService.hasAction('MSE_HEAD_EDIT') && row.statusId === 2114)"
+      pButton
+      type="button"
+      label="Подписать"
+      icon="pi pi-pencil"
+      (click)="selectSignType(row)">
+    </button>
+
+    <button
+      *ngIf="authService.hasAction('MSE_HEAD_EDIT') && row.statusId === 15198"
+      pButton
+      type="button"
+      label="Верификация"
+      icon="pi pi-camera"
+      (click)="openPhotoVerification(row)">
+    </button>
+  </div>
+</ng-template>

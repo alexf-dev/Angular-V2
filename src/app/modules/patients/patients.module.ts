@@ -18,6 +18,10 @@ import {PaginatorModule} from "primeng/paginator";
 import {DialogModule} from "primeng/dialog";
 import {OmkModule} from "../omk/omk.module";
 import {ConcatSubItemsNamePipe} from "../../core/pipe/concat-sub-items-name.pipe";
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
+import { CheckFieldComponent } from '@shared/check-field/check-field.component';
+import { DataTableComponent } from '@shared/data-table/data-table.component';
 
 
 @NgModule({
@@ -41,7 +45,11 @@ import {ConcatSubItemsNamePipe} from "../../core/pipe/concat-sub-items-name.pipe
     PaginatorModule,
     DialogModule,
     OmkModule,
-    ConcatSubItemsNamePipe
+    ConcatSubItemsNamePipe,
+    TextInputFieldComponent,
+    DropdownFieldComponent,
+    CheckFieldComponent,
+    DataTableComponent
   ]
 })
 export class PatientsModule { }

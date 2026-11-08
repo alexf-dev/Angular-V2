@@ -1,11 +1,27 @@
 <div class="input-field-row" [class.input-field-row--stacked]="stacked">
-  <label class="row-label" [attr.for]="inputId">{{ labelKey | translate }}</label>
+  <label
+    *ngIf="labelKey"
+    [class.required]="required">
+    {{ labelKey | translate }}
+  </label>
+
   <textarea
-    [id]="inputId"
+    *ngIf="control; else ngModelTextarea"
     pInputTextarea
+    [formControl]="$any(control)"
     [rows]="rows"
-    [ngModel]="value"
-    (ngModelChange)="onValue($event)"
-    [placeholder]="placeholderKey | translate"
-  ></textarea>
+    [placeholder]="getDisplayPlaceholder()">
+  </textarea>
+
+  <ng-template #ngModelTextarea>
+    <textarea
+      [id]="inputId"
+      pInputTextarea
+      [disabled]="disabled"
+      [rows]="rows"
+      [ngModel]="value"
+      (ngModelChange)="onValue($event)"
+      [placeholder]="getDisplayPlaceholder()">
+    </textarea>
+  </ng-template>
 </div>

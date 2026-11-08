@@ -20,70 +20,53 @@
     <div class="grid">
 
       <div class="col-12 md:col-4">
-
-        <label class="block mb-2">
-          Статус
-        </label>
-
-        <p-dropdown
-          styleClass="w-full"
+        <app-dropdown-field
+          label="Статус"
           [options]="statuses"
           optionLabel="name"
+          optionValue="name"
+          [value]="registeredActsFilter.status"
+          (valueChange)="registeredActsFilter.status = $event"
           placeholder="Статус">
-        </p-dropdown>
-
+        </app-dropdown-field>
       </div>
 
       <div class="col-12 md:col-3">
-
-        <label class="block mb-2">
-          Дата начала
-        </label>
-
-        <p-calendar
-          styleClass="w-full"
-          inputStyleClass="w-full"
-          showIcon
-          appendTo="body">
-        </p-calendar>
-
+        <app-date-field
+          label="Дата начала"
+          [value]="registeredActsFilter.beginDate"
+          (valueChange)="registeredActsFilter.beginDate = $event">
+        </app-date-field>
       </div>
 
       <div class="col-12 md:col-3">
-
-        <label class="block mb-2">
-          Дата окончания
-        </label>
-
-        <p-calendar
-          styleClass="w-full"
-          inputStyleClass="w-full"
-          showIcon
-          appendTo="body">
-        </p-calendar>
-
+        <app-date-field
+          label="Дата окончания"
+          [value]="registeredActsFilter.endDate"
+          (valueChange)="registeredActsFilter.endDate = $event">
+        </app-date-field>
       </div>
 
     </div>
 
     <div class="flex gap-2">
       <button
-              pButton
-              type="button"
-              [label]="'COMMON.SEARCH' | translate"
-              icon="pi pi-search"
-              (click)="search()"
-              class="p-button-success"
-      ></button>
+        pButton
+        type="button"
+        [label]="'COMMON.SEARCH' | translate"
+        icon="pi pi-search"
+        (click)="search()"
+        class="p-button-success">
+      </button>
 
       <button
-              pButton
-              type="button"
-              [label]="'COMMON.CLEAR' | translate"
-              icon="pi pi-refresh"
-              class="p-button-secondary"
-              (click)="clear()"
-      ></button>
+        pButton
+        type="button"
+        [label]="'COMMON.CLEAR' | translate"
+        icon="pi pi-refresh"
+        class="p-button-secondary"
+        (click)="clear()">
+      </button>
     </div>
 
   </p-panel>
@@ -104,16 +87,16 @@
   <!-- Таблица -->
 
   <p-table
-          [value]="registeredActsResponse"
-          [responsiveLayout]="'scroll'"
-          [paginator]="true"
-          [lazy]="true"
-          [rows]="registeredActsFilter.pageSize"
-          [first]="((registeredActsFilter.pageNum || 1) - 1) * (registeredActsFilter.pageSize || 10)"
-          [totalRecords]="pageResponse?.total || 0"
-          [rowsPerPageOptions]="[10, 25, 50]"
-          (onLazyLoad)="onPageChange($event)"
-          styleClass="p-datatable-gridlines p-datatable-striped">>
+    [value]="registeredActsResponse"
+    [responsiveLayout]="'scroll'"
+    [paginator]="true"
+    [lazy]="true"
+    [rows]="registeredActsFilter.pageSize"
+    [first]="((registeredActsFilter.pageNum || 1) - 1) * (registeredActsFilter.pageSize || 10)"
+    [totalRecords]="pageResponse?.total || 0"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    (onLazyLoad)="onPageChange($event)"
+    styleClass="p-datatable-gridlines p-datatable-striped">
 
     <ng-template pTemplate="header">
 
@@ -151,9 +134,9 @@
 
         <td>
           <p-button
-                  [label]="row.numberAkt"
-                  [text]="true"
-                  (onClick)="getAct(row.formId)">
+            [label]="row.numberAkt"
+            [text]="true"
+            (onClick)="getAct(row.formId)">
           </p-button>
         </td>
 

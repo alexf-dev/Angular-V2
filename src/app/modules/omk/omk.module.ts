@@ -28,7 +28,15 @@ import {DialogModule} from "primeng/dialog";
 import {PanelModule} from "primeng/panel";
 import {DividerModule} from "primeng/divider";
 import {ResolutionApprovedComponent} from "./resolution-approved/resolution-approved.component";
-
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { TextareaFieldComponent } from '@shared/textarea-field/textarea-field.component';
+import { DateFieldComponent } from '@shared/date-field/date-field.component';
+import { RadioGroupFieldComponent } from '@shared/radio-group-field/radio-group-field.component';
+import { MultiSelectFieldComponent } from '@shared/multi-select-field/multi-select-field.component';
+import { FileUploadFieldComponent } from '@shared/file-upload-field/file-upload-field.component';
+import { DataTableComponent } from '@shared/data-table/data-table.component';
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
+import { CheckFieldComponent } from '@shared/check-field/check-field.component';
 
 
 @NgModule({
@@ -58,7 +66,16 @@ import {ResolutionApprovedComponent} from "./resolution-approved/resolution-appr
     ProgressSpinnerModule,
     DialogModule,
     PanelModule,
-    DividerModule
+    DividerModule,
+    TextInputFieldComponent,
+    TextareaFieldComponent,
+    DateFieldComponent,
+    RadioGroupFieldComponent,
+    MultiSelectFieldComponent,
+    FileUploadFieldComponent,
+    DataTableComponent,
+    DropdownFieldComponent,
+    CheckFieldComponent
   ],
   exports: [AppealReexaminationComponent, OmkRequestFormComponent, AppealJournalComponent, CommitteeRequestFormComponent]
 })

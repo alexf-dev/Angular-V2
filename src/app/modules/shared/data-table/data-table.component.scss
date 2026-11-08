@@ -1,0 +1,38 @@
+.empty-message {
+  padding: 0.75rem 1rem !important;
+}
+
+.empty-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.paginator-holder {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+::ng-deep .table-paginator {
+  .p-paginator-current {
+    color: var(--app-text-secondary, #6b7280);
+    font-size: 0.875rem;
+  }
+
+  .p-paginator-pages {
+    .p-paginator-page {
+      min-width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      margin: 0 0.125rem;
+      border-radius: 4px;
+
+      &.p-highlight {
+        background: var(--primary-color, #3b82f6);
+        color: white;
+      }
+    }
+  }
+}

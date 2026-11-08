@@ -1,0 +1,37 @@
+<div [class.field]="true" [class.stacked]="stacked" [class.inline]="!stacked">
+  <label [class.required]="required">
+    {{ labelKey | translate }}
+  </label>
+
+  <div class="upload-area" [class.disabled]="disabled" (click)="!disabled && openFileDialog($event, fileInput)">
+    <div class="upload-content">
+      <i class="pi pi-cloud-upload upload-icon"></i>
+
+      <input
+        #fileInput
+        type="file"
+        hidden
+        (change)="onFileSelect($event)"
+        (click)="$event.stopPropagation()"
+        [accept]="accept"
+        [disabled]="disabled"
+      />
+
+      <div *ngIf="!fileName" class="upload-text">
+        {{ 'COMMON.FILE_UPLOAD.DROP_FILE' | translate }}
+        <span class="upload-hint" (click)="!disabled && openFileDialog($event, fileInput)">
+          {{ 'COMMON.FILE_UPLOAD.HINT_FILE' | translate }}
+        </span>
+      </div>
+
+      <div *ngIf="fileName" class="file-info">
+        <span class="file-name">{{ fileName }}</span>
+        <i
+          class="pi pi-times remove-icon"
+          (click)="$event.stopPropagation(); removeFile(fileInput)"
+          *ngIf="!disabled">
+        </i>
+      </div>
+    </div>
+  </div>
+</div>

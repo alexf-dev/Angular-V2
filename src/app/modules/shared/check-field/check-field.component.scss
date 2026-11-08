@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.check-field-wrapper {
+  display: block;
+}
+
+.check-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.check-label {
+  color: var(--app-text, #111827);
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0;
+}
+
+.comment-container {
+  margin-top: 0.5rem;
+  margin-left: 1.75rem;
+}

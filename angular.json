@@ -20,7 +20,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/mockServiceWorker.js"
             ],
             "styles": [
               "node_modules/primeng/resources/primeng.min.css",
@@ -67,6 +68,14 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "mock": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mock.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -79,6 +88,9 @@
             },
             "development": {
               "buildTarget": "cbdi-ui:build:development"
+            },
+            "mock": {
+              "browserTarget": "cbdi-ui:build:mock"
             }
           },
           "defaultConfiguration": "development"

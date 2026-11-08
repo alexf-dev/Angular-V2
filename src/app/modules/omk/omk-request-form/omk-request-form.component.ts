@@ -8,6 +8,7 @@ import {TranslationService} from "../../../core/service/translation.service";
 import {CamundaService} from "../../../core/service/camunda.service";
 import {AuthService} from "../../../core/service/auth.service";
 import {ResolutionApprovedResponse} from "../../../dto/resolutionApproved/resolution-approved-response";
+import { RadioOption } from '../../shared/radio-group-field/radio-group-field.component';
 
 @Component({
   selector: 'app-omk-request-form',
@@ -18,6 +19,11 @@ export class OmkRequestFormComponent implements OnInit {
   @Input() patient: any;
 
   @Input() resolution: ResolutionApprovedResponse;
+
+  requestTypeOptions: RadioOption[] = [
+    { value: 1, labelKey: 'OMK.REEXAMINATION.APPEAL' },
+    { value: 2, labelKey: 'OMK.REEXAMINATION.CONTROL' }
+  ];
 
   reExaminationAppealDto: ReexaminationAppealDto = new ReexaminationAppealDto();
   appealStatuses: DictionaryValue[] = [];
@@ -112,6 +118,22 @@ export class OmkRequestFormComponent implements OnInit {
     this.reExaminationAppealDto.file = file;
   }
 
+  onFileSelectShared(file: File | null): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    if (file) {
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      input.files = dt.files;
+    }
+    this.onFileSelect(input as any);
+  }
+
+  removeFileShared(): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    this.removeFile(input as any);
+  }
 
   removeFile(input: HTMLInputElement): void {
     this.selectedFileName = null;

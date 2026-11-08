@@ -13,7 +13,14 @@ import { UserpassSharedService } from '../../../core/service/userpass.shared.ser
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styles: [`
+    :host ::ng-deep .pi-eye,
+    :host ::ng-deep .pi-eye-slash {
+      margin-right: 1rem;
+      color: var(--primary-color) !important;
+      transform: scale(1.6);
+    }
+  `]
 })
 export class LoginComponent implements AfterViewInit {
   valCheck: string[] = ['remember'];

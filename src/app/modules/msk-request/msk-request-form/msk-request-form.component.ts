@@ -10,6 +10,7 @@ import {DictionaryService} from "../../../core/service/dictionary.service";
 import {DictionaryValue} from "../../../core/model/dictionary-value";
 import {MessageService} from "primeng/api";
 import {Declaration} from "../../../core/model/declaration";
+import { RadioOption } from '../../shared/radio-group-field/radio-group-field.component';
 
 @Component({
   selector: 'app-msk-request-form',
@@ -17,6 +18,12 @@ import {Declaration} from "../../../core/model/declaration";
   styleUrls: ['./msk-request-form.component.css']
 })
 export class MskRequestFormComponent implements OnInit {
+
+  consentPlaceOptions: RadioOption[] = [
+    { value: 'home', label: 'На дому' },
+    { value: 'stationary', label: 'В стационаре' },
+    { value: 'remote', label: 'Заочно' }
+  ];
 
   patient: PersonDto = {};
   guardian: PersonDto = {};

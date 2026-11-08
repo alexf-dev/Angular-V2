@@ -54,9 +54,10 @@ export class MseActRegisterJournalComponent implements OnInit{
 
   clear(): void {
     this.registeredActsFilter = {
-      iin: '',
       status: null,
-      type: '',
+      expertId: null,
+      beginDate: null,
+      endDate: null,
       pageNum: 1,
       pageSize: 10,
     };

@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {MessageService} from "primeng/api";
 import {FaceService} from "../../../core/service/face.service";
@@ -8,6 +8,7 @@ import {finalize} from "rxjs";
 import {PageResponse} from "../../../dto/page-response";
 import {JournalApprovalResponseDto} from "../../../dto/journaApproval/journal-approval-response-dto";
 import {AuthService} from "../../../core/service/auth.service";
+import { TableColumn, PageChangeEvent } from '../../shared/data-table/data-table.component';
 
 interface SignRow {
   patient: string;
@@ -26,7 +27,7 @@ interface SignRow {
   templateUrl: './approval-log.component.html',
   styleUrl: './approval-log.component.css'
 })
-export class ApprovalLogComponent implements OnInit {
+export class ApprovalLogComponent implements OnInit, AfterViewInit {
   items: SignRow[] = [];
 
   @ViewChild('video') video!: ElementRef<HTMLVideoElement>;
@@ -58,6 +59,37 @@ export class ApprovalLogComponent implements OnInit {
     pageSize: 10,
   };
 
+  rowsPerPageOptions = [10, 25, 50];
+
+  columns: TableColumn[] = [
+    { field: 'patient', headerKey: 'APPROVAL_JOURNAL.PATIENT' },
+    { field: 'birthDate', headerKey: 'COMMON.BIRTH_DATE' },
+    { field: 'condition', headerKey: 'MAIN.HISTORY.EXAM_DIRECTION' },
+    { field: 'beginDate', headerKey: 'APPROVAL_JOURNAL.BEGIN_DATE' },
+    { field: 'createDate', headerKey: 'APPROVAL_JOURNAL.CREATE_DATE' },
+    { field: 'expert', headerKey: 'APPROVAL_JOURNAL.EXPERT' },
+    { field: 'actions', headerKey: 'COMMON.ACTION' }
+  ];
+
+  @ViewChild('birthDateTemplate', { static: true }) birthDateTemplate: any;
+  @ViewChild('conditionTemplate', { static: true }) conditionTemplate: any;
+  @ViewChild('beginDateTemplate', { static: true }) beginDateTemplate: any;
+  @ViewChild('createDateTemplate', { static: true }) createDateTemplate: any;
+  @ViewChild('actionsTemplate', { static: true }) actionsTemplate: any;
+
+  ngAfterViewInit(): void {
+    const bind = (field: string, tpl: any) => {
+      const col = this.columns.find(c => c.field === field);
+      if (col) {
+        col.template = tpl;
+      }
+    };
+    bind('birthDate', this.birthDateTemplate);
+    bind('condition', this.conditionTemplate);
+    bind('beginDate', this.beginDateTemplate);
+    bind('createDate', this.createDateTemplate);
+    bind('actions', this.actionsTemplate);
+  }
 
   constructor(private messageService: MessageService,
               private camundaService: CamundaService,
@@ -108,10 +140,9 @@ export class ApprovalLogComponent implements OnInit {
     }
   }
 
-  onPageChange(event: any): void {
-    this.approvalLogFilter.pageNum = event.first / event.rows + 1;
-    this.approvalLogFilter.pageSize = event.rows;
-
+  onPageChange(event: PageChangeEvent): void {
+    this.approvalLogFilter.pageNum = event.page;
+    this.approvalLogFilter.pageSize = event.pageSize;
     this.search();
   }
 
@@ -212,7 +243,6 @@ export class ApprovalLogComponent implements OnInit {
 
     this.faceService.signWithPhoto({
       expertOpinionId: this.selectedRow.expertOpinionId,
-      patientId: this.selectedRow.patientId,
       iin: '031230650906',
       photo: base64
     })

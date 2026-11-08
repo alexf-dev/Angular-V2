@@ -1,46 +1,19 @@
-
-<div class="w-full">
-
-  <!-- Навигация по шагам -->
-  <div class="surface-card border-1 surface-border border-round-lg p-2 mb-3">
-    <div class="flex gap-2 overflow-auto">
-
-      <button
+<div class="steps-container">
+  <div class="steps-header">
+    <div class="steps-row">
+      <div
         *ngFor="let tab of activeTabs; let i = index"
-        type="button"
-        class="flex-1 flex-shrink-0 border-1 border-round-lg p-3
-               cursor-pointer text-center"
-        [ngClass]="activeTab === tab.id
-          ? 'bg-teal-100 border-teal-500'
-          : 'surface-ground surface-border'"
-        [attr.aria-current]="activeTab === tab.id ? 'step' : null"
+        class="step-item"
+        [class.active]="activeTab === i + 1"
         (click)="activeTab = tab.id"
       >
-        <span
-          class="block text-xs mb-2"
-          [ngClass]="activeTab === tab.id
-            ? 'text-teal-900'
-            : 'text-600'"
-        >
-          Шаг {{ i + 1 }}
-        </span>
-
-        <span
-          class="block font-semibold text-sm"
-          [ngClass]="activeTab === tab.id
-            ? 'text-teal-900'
-            : 'text-900'"
-        >
-          {{ tab.label }}
-        </span>
-      </button>
-
+        <span class="step-number">Шаг {{ i + 1 }}</span>
+        <span class="step-title">{{ tab.label }}</span>
+      </div>
     </div>
   </div>
 
-  <!-- Содержимое выбранного шага -->
-  <div class="surface-card border-1 surface-border border-round-lg p-4">
-
+  <div class="steps-content">
     <app-reg-data
       *ngIf="activeTab === 1"
       [patientId]="patientId"
@@ -82,6 +55,7 @@
 
     <app-expert-conclusion
       *ngIf="activeTab === 7"
+      class="tab-panel"
     ></app-expert-conclusion>
 
     <app-formation-ipr
@@ -90,7 +64,5 @@
       [patientId]="patientId"
       (prev)="goPrev()"
     ></app-formation-ipr>
-
   </div>
 </div>
-

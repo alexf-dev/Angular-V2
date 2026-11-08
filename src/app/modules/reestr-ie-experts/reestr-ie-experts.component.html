@@ -1,56 +1,33 @@
 <div class="grid">
   <div class="col-12">
 
-    <p-card styleClass="mb-4 cbdi-filter-card">
+    <p-card styleClass="mb-4">
       <ng-template pTemplate="title">
         {{ 'REESTR_IE_EXPERTS.TITLE' | translate }}
       </ng-template>
 
       <div class="formgrid grid">
         <div class="field col-12 md:col-4">
-          <label for="iin" class="block font-bold mb-2">
-            {{ 'COMMON.IIN' | translate }}
-          </label>
-
-          <input
-            id="iin"
-            type="text"
-            pInputText
-            class="w-full"
-            [placeholder]="'COMMON.IIN' | translate"
-            [(ngModel)]="reestrExpertsFilter.iin"
-          />
+          <app-text-input-field
+            labelKey="COMMON.IIN"
+            [value]="reestrExpertsFilter.iin"
+            (valueChange)="reestrExpertsFilter.iin = $event"
+            placeholderKey="COMMON.IIN">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="status" class="block font-bold mb-2">
-            {{ 'COMMON.STATUS' | translate }}
-          </label>
-
-          <p-dropdown
-            id="status"
+          <app-dropdown-field
+            labelKey="COMMON.STATUS"
             [options]="dicStatus"
-            optionLabel="nameRu"
             optionValue="id"
-            [placeholder]="'COMMON.STATUS' | translate"
-            class="w-full full-dropdown"
-            [(ngModel)]="reestrExpertsFilter.status"
-          >
-            <ng-template let-item pTemplate="item">
-              <div>{{ item | translateDictionary }}</div>
-            </ng-template>
-
-            <ng-template let-selectedItem pTemplate="selectedItem">
-              <div *ngIf="selectedItem">
-                {{ selectedItem | translateDictionary }}
-              </div>
-              <span *ngIf="!selectedItem">
-                {{ 'COMMON.CHOOSE' | translate }}
-              </span>
-            </ng-template>
-          </p-dropdown>
+            optionLabel="nameRu"
+            [dictionaryMode]="true"
+            [value]="reestrExpertsFilter.status"
+            (valueChange)="reestrExpertsFilter.status = $event"
+            placeholderKey="COMMON.STATUS">
+          </app-dropdown-field>
         </div>
-
       </div>
 
       <div class="flex gap-2">
@@ -76,7 +53,7 @@
   </div>
 
   <div class="col-12">
-    <p-card styleClass="cbdi-result-card">
+    <p-card>
       <ng-template pTemplate="title">
         <div class="flex justify-content-between align-items-center w-full">
           <span>Результат поиска </span>
@@ -273,35 +250,16 @@
   <div class="flex flex-column gap-4">
 
     <div class="field col-12">
-      <label for="status" class="block font-bold mb-2">
-        {{ 'COMMON.STATUS' | translate }}
-      </label>
-
-      <p-dropdown
-        id="reason"
+      <app-dropdown-field
+        labelKey="COMMON.STATUS"
         [options]="dicReason"
-        optionLabel="nameRu"
         optionValue="code"
-        [placeholder]="'COMMON.STATUS' | translate"
-        class="w-full full-dropdown"
-        [(ngModel)]="reasonCode"
-      >
-        <ng-template let-item pTemplate="item">
-          <div
-            class="white-space-normal line-height-3">
-            {{ item | translateDictionary }}</div>
-        </ng-template>
-
-        <ng-template let-selectedItem pTemplate="selectedItem">
-          <div *ngIf="selectedItem"
-          class="white-space-normal line-height-3">
-            {{ selectedItem | translateDictionary }}
-          </div>
-          <span *ngIf="!selectedItem">
-                {{ 'COMMON.CHOOSE' | translate }}
-              </span>
-        </ng-template>
-      </p-dropdown>
+        optionLabel="nameRu"
+        [dictionaryMode]="true"
+        [value]="reasonCode"
+        (valueChange)="reasonCode = $event"
+        placeholderKey="COMMON.STATUS">
+      </app-dropdown-field>
     </div>
 
     <div class="flex justify-content-between">

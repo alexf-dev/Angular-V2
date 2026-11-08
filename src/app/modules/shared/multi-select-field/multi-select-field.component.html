@@ -1,0 +1,55 @@
+<div [class.field]="true" [class.stacked]="stacked" [class.inline]="!stacked">
+  <label
+    *ngIf="labelKey"
+    [for]="multiSelectId"
+    [class.required]="required">
+    {{ labelKey | translate }}
+  </label>
+
+  <p-multiSelect
+    [inputId]="multiSelectId"
+    [options]="options"
+    [optionValue]="optionValue"
+    [optionLabel]="optionLabel"
+    [ngModel]="value"
+    (ngModelChange)="onValueChange($event)"
+    [placeholder]="placeholder || (placeholderKey | translate)"
+    [disabled]="disabled"
+    [filter]="filter"
+    [showToggleAll]="false"
+    [showClear]="false"
+    [appendTo]="'body'"
+    [style]="{'width': '100%'}">
+
+    <!-- Шаблон для элемента в списке -->
+    <ng-template let-option pTemplate="item">
+      <div *ngIf="option">
+        <span *ngIf="dictionaryMode">{{ option | translateDictionary }}</span>
+        <span *ngIf="!dictionaryMode && translateOptions">{{ getOptionLabel(option) | translate }}</span>
+        <span *ngIf="!dictionaryMode && !translateOptions">{{ getOptionLabel(option) }}</span>
+      </div>
+    </ng-template>
+
+    <!-- Шаблон для выбранных элементов -->
+    <ng-template pTemplate="selectedItems">
+      <span *ngIf="!value?.length" class="text-color-secondary">
+        {{ placeholder || (placeholderKey | translate) }}
+      </span>
+      <span *ngIf="value?.length">
+        {{ 'COMMON.SELECTED' | translate }}: {{ value.length }}
+      </span>
+    </ng-template>
+  </p-multiSelect>
+
+  <!-- Чипсы с выбранными элементами -->
+  <div *ngIf="showChips && getSelectedItems().length > 0" class="chips-container">
+    <p-chip
+      *ngFor="let item of getSelectedItems()"
+      [removable]="!disabled"
+      (onRemove)="onRemoveItem(item)">
+      <span *ngIf="dictionaryMode">{{ item | translateDictionary }}</span>
+      <span *ngIf="!dictionaryMode && translateOptions">{{ getOptionLabel(item) | translate }}</span>
+      <span *ngIf="!dictionaryMode && !translateOptions">{{ getOptionLabel(item) }}</span>
+    </p-chip>
+  </div>
+</div>

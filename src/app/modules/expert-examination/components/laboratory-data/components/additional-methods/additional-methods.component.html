@@ -1,11 +1,7 @@
 <div class="laboratory-block">
 
   <!-- Кастомный заголовок -->
-  <div class="block-header" role="button" tabindex="0"
-       [attr.aria-expanded]="isExpanded"
-       (click)="toggle()"
-       (keydown.enter)="toggle()"
-       (keydown.space)="toggle(); $event.preventDefault()">
+  <div class="block-header" (click)="toggle()">
     <i class="pi pi-chevron-down"
        [class.rotated]="isExpanded"
        style="margin-right: 8px; font-size: 12px; color: var(--app-text);">

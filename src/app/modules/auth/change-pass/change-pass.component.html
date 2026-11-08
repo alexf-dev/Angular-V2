@@ -127,10 +127,6 @@
         <button pButton pRipple label="{{'MAIN.AUTH.CHANGE' | translate}}"
                 [disabled]="form.invalid || !isNewPassOk() || !isNewPass2Ok()"
                 class="w-full p-3 text-xl mt-3" (click)="changePass()"></button>
-
-      <a class="cbdi-login-change-password" routerLink="../login">
-        {{ 'MAIN.AUTH.LOGON' | translate }}
-      </a>
     </form>
     <app-custom-toast></app-custom-toast>
 </div>

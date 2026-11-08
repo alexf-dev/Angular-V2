@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-check-field',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule, CheckboxModule, InputTextModule],
+  imports: [CommonModule, FormsModule, TranslateModule, CheckboxModule, ReactiveFormsModule],
   templateUrl: './check-field.component.html',
   styleUrls: ['./check-field.component.scss']
 })
@@ -16,11 +15,17 @@ export class CheckFieldComponent {
   private static idCounter = 0;
 
   @Input() labelKey = '';
+  @Input() label = '';  // Прямой текст лейбла
+
   @Input() showComment = false;
   @Input() checked = false;
   @Output() checkedChange = new EventEmitter<boolean>();
+  @Input() control: AbstractControl | null = null;
+
   @Input() comment = '';
   @Output() commentChange = new EventEmitter<string>();
+
+  @Input() disabled = false;
 
   public inputId = 'check-field-' + ++CheckFieldComponent.idCounter;
 

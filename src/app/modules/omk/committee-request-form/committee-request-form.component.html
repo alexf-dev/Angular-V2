@@ -52,8 +52,6 @@
       </div>
     </div>
 
-
-
     <div class="grid mt-2">
       <div class="col-6">
         <div class="font-semibold text-s mb-1">
@@ -218,48 +216,29 @@
           </td>
         </tr>
       </ng-template>
-
-
     </p-table>
   </div>
 
   <!-- Решение -->
   <div class="surface-100 border-round p-3" *ngIf="authService.hasAction('COMMITTEE_EDIT')">
-    <div class="flex justify-content-center gap-2 mb-2">
-      <div class="flex align-items-center gap-2">
-        <p-radioButton
-          [disabled]="isReadonly"
-          name="decision"
-          [value]="15139"
-          inputId="sendOmk"
-          [(ngModel)]="reexaminationAppealUpdate.statusId"
-        ></p-radioButton>
-        <label class="font-semibold text-xs mb-1" for="sendOmk">{{ 'OMK.REEXAMINATION.SEND_OMK' | translate }}</label>
-      </div>
-
-      <div class="flex align-items-center gap-2">
-        <p-radioButton
-          [disabled]="isReadonly"
-          name="decision"
-          [value]="15137"
-          inputId="reject"
-          [(ngModel)]="reexaminationAppealUpdate.statusId"
-        ></p-radioButton>
-        <label class="font-semibold text-xs mb-1" for="reject">{{ 'OMK.REEXAMINATION.CANCELLED' | translate }}</label>
-      </div>
+    <div class="flex justify-content-center mb-2">
+      <app-radio-group-field
+        [options]="decisionOptions"
+        [value]="reexaminationAppealUpdate.statusId"
+        (valueChange)="reexaminationAppealUpdate.statusId = $event"
+        [disabled]="isReadonly"
+        layout="horizontal">
+      </app-radio-group-field>
     </div>
 
-    <label class="font-semibold text-xs mb-2 block">
-      {{ 'COMMON.COMMENT' | translate }}
-    </label>
-
-    <textarea [disabled]="isReadonly || reexaminationAppealUpdate.statusId == 15139 || !reexaminationAppealUpdate.statusId"
-              [(ngModel)]="reexaminationAppealUpdate.committeeComment"
-              pInputTextarea
-              rows="4"
-              class="w-full"
-              placeholder="{{ 'OMK.REEXAMINATION.WRITE' | translate }}"
-    ></textarea>
+    <app-textarea-field
+      labelKey="COMMON.COMMENT"
+      [value]="reexaminationAppealUpdate.committeeComment"
+      (valueChange)="reexaminationAppealUpdate.committeeComment = $event"
+      [rows]="4"
+      placeholderKey="OMK.REEXAMINATION.WRITE"
+      [disabled]="isReadonly || reexaminationAppealUpdate.statusId == 15139 || !reexaminationAppealUpdate.statusId">
+    </app-textarea-field>
   </div>
 
   <!-- Footer -->
@@ -285,4 +264,3 @@
   </div>
 
 </div>
-

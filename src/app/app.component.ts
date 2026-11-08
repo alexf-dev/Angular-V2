@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Приоритет: URL-параметр > localStorage > конфиг > моки
     if (this.hasDebugParamInUrl()) return true;
     if (this.isDebugInLocalStorage()) return true;
-    return /* environment.useMocks || */ this.configService.enableTestButtons;
+    return environment.useMocks || this.configService.enableTestButtons;
   }
 
   public test404(): void {

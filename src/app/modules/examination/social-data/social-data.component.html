@@ -13,49 +13,29 @@
 
           <div class="formgrid grid p-fluid">
             <div class="field col-12 md:col-6">
-              <label for="maritalStatus">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.SOCIAL_STATUS.MARITAL_STATUS' | translate }}
-              </label>
-              <p-dropdown
-                [(ngModel)]="socialData.familyStId"
+              <app-dropdown-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.SOCIAL_STATUS.MARITAL_STATUS"
                 [options]="dicFamilySt"
-                id="maritalStatus"
-                name="familyStId"
                 optionValue="id"
-                [showClear]="true"
-                [placeholder]="'COMMON.CHOOSE' | translate"
-              >
-                <ng-template let-item pTemplate="item">
-                  <div>{{ item | translateDictionary }}</div>
-                </ng-template>
-                <ng-template let-selectedItem pTemplate="selectedItem">
-                  <div *ngIf="selectedItem">{{ selectedItem | translateDictionary }}</div>
-                  <span *ngIf="!selectedItem">{{ 'COMMON.CHOOSE' | translate }}</span>
-                </ng-template>
-              </p-dropdown>
+                optionLabel="nameRu"
+                [dictionaryMode]="true"
+                [value]="socialData.familyStId"
+                (valueChange)="socialData.familyStId = $event"
+                placeholderKey="COMMON.CHOOSE">
+              </app-dropdown-field>
             </div>
 
             <div class="field col-12 md:col-6">
-              <label for="socialStatus">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.SOCIAL_STATUS.SOCIAL_ECONOMIC_STATUS' | translate }}
-              </label>
-              <p-dropdown
-                [(ngModel)]="socialData.socEconomicStId"
+              <app-dropdown-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.SOCIAL_STATUS.SOCIAL_ECONOMIC_STATUS"
                 [options]="dicSocialEconomicStatus"
-                id="socialStatus"
-                name="socEconomicStId"
                 optionValue="id"
-                [showClear]="true"
-                [placeholder]="'COMMON.CHOOSE' | translate"
-              >
-                <ng-template let-item pTemplate="item">
-                  <div>{{ item | translateDictionary }}</div>
-                </ng-template>
-                <ng-template let-selectedItem pTemplate="selectedItem">
-                  <div *ngIf="selectedItem">{{ selectedItem | translateDictionary }}</div>
-                  <span *ngIf="!selectedItem">{{ 'COMMON.CHOOSE' | translate }}</span>
-                </ng-template>
-              </p-dropdown>
+                optionLabel="nameRu"
+                [dictionaryMode]="true"
+                [value]="socialData.socEconomicStId"
+                (valueChange)="socialData.socEconomicStId = $event"
+                placeholderKey="COMMON.CHOOSE">
+              </app-dropdown-field>
             </div>
           </div>
         </p-accordionTab>
@@ -67,80 +47,53 @@
 
           <div class="formgrid grid p-fluid">
             <div class="field col-12 md:col-6">
-              <label for="envConditions">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.SOCIAL_ENVIRONMENTAL_CONDITIONS' | translate }}
-              </label>
-              <p-dropdown
-                [(ngModel)]="socialData.socEconomicStId"
+              <app-dropdown-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.SOCIAL_ENVIRONMENTAL_CONDITIONS"
                 [options]="dicSocialEconomicStatus"
-                id="envConditions"
-                name="envConditions"
                 optionValue="id"
-                [showClear]="true"
-                [placeholder]="'COMMON.CHOOSE' | translate"
-              >
-                <ng-template let-item pTemplate="item">
-                  <div>{{ item | translateDictionary }}</div>
-                </ng-template>
-                <ng-template let-selectedItem pTemplate="selectedItem">
-                  <div *ngIf="selectedItem">{{ selectedItem | translateDictionary }}</div>
-                  <span *ngIf="!selectedItem">{{ 'COMMON.CHOOSE' | translate }}</span>
-                </ng-template>
-              </p-dropdown>
+                optionLabel="nameRu"
+                [dictionaryMode]="true"
+                [value]="socialData.socEconomicStId"
+                (valueChange)="socialData.socEconomicStId = $event"
+                placeholderKey="COMMON.CHOOSE">
+              </app-dropdown-field>
             </div>
 
             <div class="field col-12 md:col-2">
-              <label for="floor">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.FLOOR' | translate }}
-              </label>
-              <p-inputNumber
-                [(ngModel)]="socialData.floor"
-                [max]="99"
+              <app-number-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.FLOOR"
+                [value]="socialData.floor"
+                (valueChange)="socialData.floor = $event"
                 [min]="0"
-                [step]="1"
-                inputId="floor"
-                mode="decimal"
-                name="floor"
-              >
-              </p-inputNumber>
+                [max]="99"
+                [step]="1">
+              </app-number-field>
             </div>
           </div>
 
           <div class="formgrid grid p-fluid">
-            <div class="field col-12 md:col-4 flex align-items-center">
-              <p-checkbox
-                [(ngModel)]="socialData.isRampant"
-                [binary]="true"
-                inputId="ramp"
-                name="hasRamp"
-              ></p-checkbox>
-              <label class="ml-2" for="ramp">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.RAMP' | translate }}
-              </label>
+            <div class="field col-12 md:col-4">
+              <app-check-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.RAMP"
+                [checked]="socialData.isRampant"
+                (checkedChange)="socialData.isRampant = $event">
+              </app-check-field>
             </div>
 
-            <div class="field col-12 md:col-4 flex align-items-center">
-              <p-checkbox
-                [(ngModel)]="socialData.isHeating"
-                [binary]="true"
-                inputId="heating"
-                name="hasHeating"
-              ></p-checkbox>
-              <label class="ml-2" for="heating">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.HEATING' | translate }}
-              </label>
+            <div class="field col-12 md:col-4">
+              <app-check-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.HEATING"
+                [checked]="socialData.isHeating"
+                (checkedChange)="socialData.isHeating = $event">
+              </app-check-field>
             </div>
 
-            <div class="field col-12 md:col-4 flex align-items-center">
-              <p-checkbox
-                [(ngModel)]="socialData.isElevator"
-                [binary]="true"
-                inputId="elevator"
-                name="hasElevator"
-              ></p-checkbox>
-              <label class="ml-2" for="elevator">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.ELEVATOR' | translate }}
-              </label>
+            <div class="field col-12 md:col-4">
+              <app-check-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.HOME_IMPROVEMENT.ELEVATOR"
+                [checked]="socialData.isElevator"
+                (checkedChange)="socialData.isElevator = $event">
+              </app-check-field>
             </div>
           </div>
         </p-accordionTab>
@@ -152,49 +105,29 @@
 
           <div class="formgrid grid p-fluid">
             <div class="field col-12 md:col-6">
-              <label for="educationLevel">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.EDUCATION_EMPLOYMENT_INFORMATION.EDUCATION_TRAINING' | translate }}
-              </label>
-              <p-dropdown
-                [(ngModel)]="socialData.educationTypeId"
+              <app-dropdown-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.EDUCATION_EMPLOYMENT_INFORMATION.EDUCATION_TRAINING"
                 [options]="dicEducationType"
-                id="educationLevel"
-                name="educationLevel"
                 optionValue="id"
-                [showClear]="true"
-                [placeholder]="'COMMON.CHOOSE' | translate"
-              >
-                <ng-template let-item pTemplate="item">
-                  <div>{{ item | translateDictionary }}</div>
-                </ng-template>
-                <ng-template let-selectedItem pTemplate="selectedItem">
-                  <div *ngIf="selectedItem">{{ selectedItem | translateDictionary }}</div>
-                  <span *ngIf="!selectedItem">{{ 'COMMON.CHOOSE' | translate }}</span>
-                </ng-template>
-              </p-dropdown>
+                optionLabel="nameRu"
+                [dictionaryMode]="true"
+                [value]="socialData.educationTypeId"
+                (valueChange)="socialData.educationTypeId = $event"
+                placeholderKey="COMMON.CHOOSE">
+              </app-dropdown-field>
             </div>
 
             <div class="field col-12 md:col-6">
-              <label for="newProfession">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.EDUCATION_EMPLOYMENT_INFORMATION.MAIN_PROFESSION' | translate }}
-              </label>
-              <p-dropdown
-                [(ngModel)]="socialData.newProfessionId"
+              <app-dropdown-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.EDUCATION_EMPLOYMENT_INFORMATION.MAIN_PROFESSION"
                 [options]="dicNewProfession"
-                id="newProfession"
-                name="newProfession"
                 optionValue="id"
-                [showClear]="true"
-                [placeholder]="'COMMON.CHOOSE' | translate"
-              >
-                <ng-template let-item pTemplate="item">
-                  <div>{{ item | translateDictionary }}</div>
-                </ng-template>
-                <ng-template let-selectedItem pTemplate="selectedItem">
-                  <div *ngIf="selectedItem">{{ selectedItem | translateDictionary }}</div>
-                  <span *ngIf="!selectedItem">{{ 'COMMON.CHOOSE' | translate }}</span>
-                </ng-template>
-              </p-dropdown>
+                optionLabel="nameRu"
+                [dictionaryMode]="true"
+                [value]="socialData.newProfessionId"
+                (valueChange)="socialData.newProfessionId = $event"
+                placeholderKey="COMMON.CHOOSE">
+              </app-dropdown-field>
             </div>
           </div>
         </p-accordionTab>
@@ -207,17 +140,12 @@
           <div class="formgrid grid p-fluid">
             <div
               *ngFor="let factor of dicHarmfulFactors; let i = index"
-              class="field col-12 md:col-4 flex align-items-center"
-            >
-              <p-checkbox
-                [binary]="true"
-                [ngModel]="isChecked(factor.id) > -1"
-                (onChange)="pushItemFactor(factor.id, $event.checked)"
-                [inputId]="'harmfulFactor' + i"
-              ></p-checkbox>
-              <label class="ml-2" [for]="'harmfulFactor' + i">
-                {{ factor | translateDictionary }}
-              </label>
+              class="field col-12 md:col-4">
+              <app-check-field
+                [label]="factor | translateDictionary"
+                [checked]="isChecked(factor.id) > -1"
+                (checkedChange)="pushItemFactor(factor.id, $event)">
+              </app-check-field>
             </div>
           </div>
         </p-accordionTab>
@@ -229,66 +157,45 @@
 
           <div class="formgrid grid p-fluid">
             <div class="field col-12">
-              <label for="studyPlace">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.PLACE_OF_STUDY' | translate }}
-              </label>
-              <input
-                [(ngModel)]="socialData.studyPlace"
-                id="studyPlace"
-                name="studyPlace"
-                pInputText
-                type="text"
-              />
+              <app-text-input-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.PLACE_OF_STUDY"
+                [value]="socialData.studyPlace"
+                (valueChange)="socialData.studyPlace = $event">
+              </app-text-input-field>
             </div>
           </div>
 
           <div class="formgrid grid p-fluid">
-            <div class="field col-12 md:col-6 flex align-items-center">
-              <p-checkbox
-                [(ngModel)]="socialData.isKindergarten"
-                [binary]="true"
-                inputId="kindergarten"
-                name="kindergarten"
-              ></p-checkbox>
-              <label class="ml-2" for="kindergarten">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.KINDERGARTEN' | translate }}
-              </label>
+            <div class="field col-12 md:col-6">
+              <app-check-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.KINDERGARTEN"
+                [checked]="socialData.isKindergarten"
+                (checkedChange)="socialData.isKindergarten = $event">
+              </app-check-field>
             </div>
 
-            <div class="field col-12 md:col-6 flex align-items-center">
-              <p-checkbox
-                [(ngModel)]="socialData.isSchool"
-                [binary]="true"
-                inputId="school"
-                name="school"
-              ></p-checkbox>
-              <label class="ml-2" for="school">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.SCHOOL' | translate }}
-              </label>
+            <div class="field col-12 md:col-6">
+              <app-check-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.SCHOOL"
+                [checked]="socialData.isSchool"
+                (checkedChange)="socialData.isSchool = $event">
+              </app-check-field>
             </div>
 
-            <div class="field col-12 md:col-6 flex align-items-center">
-              <p-checkbox
-                [(ngModel)]="socialData.isSpecSchool"
-                [binary]="true"
-                inputId="specSchool"
-                name="specSchool"
-              ></p-checkbox>
-              <label class="ml-2" for="specSchool">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.SPEC_SCHOOL' | translate }}
-              </label>
+            <div class="field col-12 md:col-6">
+              <app-check-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.SPEC_SCHOOL"
+                [checked]="socialData.isSpecSchool"
+                (checkedChange)="socialData.isSpecSchool = $event">
+              </app-check-field>
             </div>
 
-            <div class="field col-12 md:col-6 flex align-items-center">
-              <p-checkbox
-                [(ngModel)]="socialData.isSpecKindergarten"
-                [binary]="true"
-                inputId="specKindergarten"
-                name="specKindergarten"
-              ></p-checkbox>
-              <label class="ml-2" for="specKindergarten">
-                {{ 'MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.SPEC_KINDERGARTEN' | translate }}
-              </label>
+            <div class="field col-12 md:col-6">
+              <app-check-field
+                labelKey="MAIN.EXAMINATION.SOCIAL-DATA.PLACE_OF_STUDY.SPEC_KINDERGARTEN"
+                [checked]="socialData.isSpecKindergarten"
+                (checkedChange)="socialData.isSpecKindergarten = $event">
+              </app-check-field>
             </div>
           </div>
         </p-accordionTab>
@@ -301,15 +208,15 @@
         type="button"
         class="p-button-text"
         (click)="onPrev()"
-        label="{{ 'COMMON.BACK' | translate }}"
-      ></button>
+        label="{{ 'COMMON.BACK' | translate }}">
+      </button>
 
       <button
         pButton
         type="button"
         (click)="onNext()"
-        label="{{ 'COMMON.NEXT' | translate }}"
-      ></button>
+        label="{{ 'COMMON.NEXT' | translate }}">
+      </button>
     </div>
   </div>
 </div>

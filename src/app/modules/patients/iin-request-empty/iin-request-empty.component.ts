@@ -18,13 +18,6 @@ export class IinRequestEmptyComponent {
 
   constructor( private api: ApiService,  public translateService: TranslationService) {}
 
-  onlyDigits(ev: KeyboardEvent) {
-    const c = ev.key;
-    if (!/[0-9]/.test(c)) {
-      ev.preventDefault();
-    }
-  }
-
   send() {
     const trimmed = (this.iin || '').trim();
     if (/^\d{12}$/.test(trimmed)) {

@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  width: 100%;
+  background: transparent;
+}
+
+.steps-container {
+  width: 100%;
+}
+
+.steps-header {
+  background: var(--app-card-bg);
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.steps-row {
+  display: flex;
+  gap: 0.5rem;
+  min-width: max-content;
+}
+
+.step-item {
+  flex: 1;              /* равномерно делит ширину */
+  min-width: 0;         /* убирает ограничение */
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: var(--app-surface-page);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.step-item:hover {
+  background: var(--app-tint-blue);
+  border-color: #bfdbfe;
+}
+
+.step-item.active {
+  background: var(--app-tint-blue);
+  border-color: #60a5fa;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+}
+
+.step-number {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--app-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.step-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--app-text);
+  line-height: 1.2;
+}
+
+.step-item.active .step-number,
+.step-item.active .step-title {
+  color: var(--app-link);
+}
+
+.steps-content {
+  background: var(--app-card-bg);
+  border-radius: 14px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  min-height: 300px;
+}

@@ -21,7 +21,8 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ReestrIeExpertsComponent} from "./reestr-ie-experts.component";
 import {RadioButtonModule} from "primeng/radiobutton";
-
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
 
 
 @NgModule({
@@ -48,6 +49,8 @@ import {RadioButtonModule} from "primeng/radiobutton";
     BadgeModule,
     InputTextareaModule,
     ConfirmDialogModule,
+    TextInputFieldComponent,
+    DropdownFieldComponent,
     RadioButtonModule
   ]
 })

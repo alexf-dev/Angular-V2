@@ -21,7 +21,9 @@ import {DialogModule} from "primeng/dialog";
 import {RevisionReasonDialogComponent} from './revision-reason-dialog/revision-reason-dialog.component';
 import {MessageModule} from "primeng/message";
 import {ProgressBarModule} from "primeng/progressbar";
-
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
+import { DateFieldComponent } from '@shared/date-field/date-field.component';
 
 @NgModule({
     declarations: [CompletedWorkActsComponent, CompletedWorkActFormComponent, ExportCompletedExpertDealsComponent, RevisionReasonDialogComponent],
@@ -41,6 +43,9 @@ import {ProgressBarModule} from "primeng/progressbar";
         TranslateDictionaryPipe,
         DialogModule,
         MessageModule,
+        TextInputFieldComponent,
+        DropdownFieldComponent,
+        DateFieldComponent,
         ProgressBarModule
     ],
     providers: [TranslateDictionaryPipe]

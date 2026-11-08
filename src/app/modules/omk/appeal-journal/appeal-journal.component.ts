@@ -1,23 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import {DictionaryValue} from "../../../core/model/dictionary-value";
-import {DictionaryService} from "../../../core/service/dictionary.service";
-import {AppealJournalResponse} from "../../../dto/omk/appeal-journal-response";
-import {CamundaService} from "../../../core/service/camunda.service";
-import {PageResponse} from "../../../dto/page-response";
-import {TranslateService} from "@ngx-translate/core";
-import {AuthService} from "../../../core/service/auth.service";
-import {ReexaminationAppealDto} from "../../../dto/omk/reexamination-appeal-dto";
-import {ExpertOpinionOmk} from "../../../dto/omk/expert-opinion-omk";
-import {forkJoin} from "rxjs";
-import {ExpertOpinionSmallDto} from "../../../dto/omk/expert-opinion-small-dto";
-import {Router} from "@angular/router";
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { DictionaryValue } from "../../../core/model/dictionary-value";
+import { DictionaryService } from "../../../core/service/dictionary.service";
+import { AppealJournalResponse } from "../../../dto/omk/appeal-journal-response";
+import { CamundaService } from "../../../core/service/camunda.service";
+import { PageResponse } from "../../../dto/page-response";
+import { TranslateService } from "@ngx-translate/core";
+import { AuthService } from "../../../core/service/auth.service";
+import { ReexaminationAppealDto } from "../../../dto/omk/reexamination-appeal-dto";
+import { ExpertOpinionOmk } from "../../../dto/omk/expert-opinion-omk";
+import { forkJoin } from "rxjs";
+import { ExpertOpinionSmallDto } from "../../../dto/omk/expert-opinion-small-dto";
+import { Router } from "@angular/router";
+import { TableColumn, PageChangeEvent } from '../../shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-appeal-journal',
   templateUrl: './appeal-journal.component.html',
   styleUrl: './appeal-journal.component.css'
 })
-export class AppealJournalComponent implements OnInit {
+export class AppealJournalComponent implements OnInit, AfterViewInit {
 
   committeeDialogVisible = false;
   loadingCommitteeModal = false;
@@ -46,6 +47,23 @@ export class AppealJournalComponent implements OnInit {
     pageSize: 10,
   };
 
+  rowsPerPageOptions = [10, 25, 50];
+
+  columns: TableColumn[] = [
+    { field: 'actNumber', headerKey: 'OMK.APPEAL_JOURNAL.NUMBER_ACT' },
+    { field: 'type', headerKey: 'OMK.APPEAL_JOURNAL.TYPE' },
+    { field: 'dateAppeal', headerKey: 'OMK.APPEAL_JOURNAL.REGISTRATION_DATE' },
+    { field: 'status', headerKey: 'COMMON.STATUS' },
+    { field: 'fio', headerKey: 'OMK.APPEAL_JOURNAL.INIT' },
+    { field: 'actions', headerKey: 'COMMON.ACTION', align: 'center' }
+  ];
+
+  @ViewChild('typeTemplate', { static: true }) typeTemplate: any;
+  @ViewChild('dateTemplate', { static: true }) dateTemplate: any;
+  @ViewChild('statusTemplate', { static: true }) statusTemplate: any;
+  @ViewChild('fioTemplate', { static: true }) fioTemplate: any;
+  @ViewChild('actionsTemplate', { static: true }) actionsTemplate: any;
+
   constructor(
     private dictionaryService: DictionaryService,
     private camundaService: CamundaService,
@@ -69,10 +87,21 @@ export class AppealJournalComponent implements OnInit {
       this.dicRegion = res;
     });
 
-
-
-
     this.search();
+  }
+
+  ngAfterViewInit(): void {
+    const bind = (field: string, tpl: any) => {
+      const col = this.columns.find(c => c.field === field);
+      if (col) {
+        col.template = tpl;
+      }
+    };
+    bind('type', this.typeTemplate);
+    bind('dateAppeal', this.dateTemplate);
+    bind('status', this.statusTemplate);
+    bind('fio', this.fioTemplate);
+    bind('actions', this.actionsTemplate);
   }
 
   search(): void {
@@ -95,9 +124,9 @@ export class AppealJournalComponent implements OnInit {
     this.search();
   }
 
-  onPageChange(event: any): void {
-    this.appealJournalFilter.pageNum = event.first / event.rows + 1;
-    this.appealJournalFilter.pageSize = event.rows;
+  onPageChange(event: PageChangeEvent): void {
+    this.appealJournalFilter.pageNum = event.page;
+    this.appealJournalFilter.pageSize = event.pageSize;
     this.search();
   }
 

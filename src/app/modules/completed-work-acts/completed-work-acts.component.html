@@ -1,63 +1,62 @@
 <div class="grid">
     <div class="col-12">
-        <p-card styleClass="mb-4 cbdi-filter-card">
+        <p-card styleClass="mb-4">
             <ng-template pTemplate="title">
                 Акт выполненных работ
             </ng-template>
 
             <div class="formgrid grid">
-                <div class="field col-12 md:col-3">
-                    <label class="block mb-2 font-bold" for="region">Регион</label>
-                    <p-dropdown
-                            [options]="dicRegion"
-                            appendTo="body"
-                            inputId="region"
-                            optionLabel="nameRu"
-                            optionValue="id"
-                            placeholder="Регион"
-                            styleClass="w-full">
-                    </p-dropdown>
-                </div>
+              <div class="field col-12 md:col-3">
+                <app-dropdown-field
+                  label="Регион"
+                  [options]="dicRegion"
+                  optionValue="id"
+                  optionLabel="nameRu"
+                  [dictionaryMode]="true"
+                  [value]="indepExpertActsFilter.region"
+                  (valueChange)="indepExpertActsFilter.region = $event"
+                  placeholder="Регион">
+                </app-dropdown-field>
+              </div>
 
-                <div class="field col-12 md:col-3">
-                    <label class="block mb-2 font-bold" for="status">Статус</label>
-                    <p-dropdown
-                            [options]="dicStatus"
-                            appendTo="body"
-                            inputId="status"
-                            optionLabel="nameRu"
-                            optionValue="id"
-                            placeholder="Статус"
-                            styleClass="w-full">
-                    </p-dropdown>
-                </div>
+              <div class="field col-12 md:col-3">
+                <app-dropdown-field
+                  label="Статус"
+                  [options]="dicStatus"
+                  optionValue="id"
+                  optionLabel="nameRu"
+                  [dictionaryMode]="true"
+                  [value]="indepExpertActsFilter.status"
+                  (valueChange)="indepExpertActsFilter.status = $event"
+                  placeholder="Статус">
+                </app-dropdown-field>
+              </div>
 
-                <div class="field col-12 md:col-3">
-                    <label class="block mb-2 font-bold" for="year">Год</label>
-                    <p-dropdown
-                            (onChange)="yearChange()"
-                            [options]="dicYear"
-                            appendTo="body"
-                            inputId="year"
-                            optionLabel="nameRu"
-                            optionValue="id"
-                            placeholder="Год"
-                            styleClass="w-full">
-                    </p-dropdown>
-                </div>
+              <div class="field col-12 md:col-3">
+                <app-dropdown-field
+                  label="Год"
+                  [options]="dicYear"
+                  optionValue="id"
+                  optionLabel="nameRu"
+                  [dictionaryMode]="true"
+                  [value]="indepExpertActsFilter.year"
+                  (valueChange)="indepExpertActsFilter.year = $event; yearChange()"
+                  placeholder="Год">
+                </app-dropdown-field>
+              </div>
 
-                <div class="field col-12 md:col-3">
-                    <label class="block mb-2 font-bold" for="month">Месяц</label>
-                    <p-dropdown
-                            [options]="dicMonth"
-                            appendTo="body"
-                            inputId="month"
-                            optionLabel="nameRu"
-                            optionValue="id"
-                            placeholder="Месяц"
-                            styleClass="w-full">
-                    </p-dropdown>
-                </div>
+              <div class="field col-12 md:col-3">
+                <app-dropdown-field
+                  label="Месяц"
+                  [options]="dicMonth"
+                  optionValue="id"
+                  optionLabel="nameRu"
+                  [dictionaryMode]="true"
+                  [value]="indepExpertActsFilter.month"
+                  (valueChange)="indepExpertActsFilter.month = $event"
+                  placeholder="Месяц">
+                </app-dropdown-field>
+              </div>
             </div>
 
             <div class="flex gap-2">
@@ -83,7 +82,7 @@
     </div>
 
     <div class="col-12">
-        <p-card styleClass="cbdi-result-card">
+        <p-card>
             <ng-template pTemplate="title">
                 <div class="flex justify-content-between align-items-center w-full">
                     <span>Результат поиска</span>

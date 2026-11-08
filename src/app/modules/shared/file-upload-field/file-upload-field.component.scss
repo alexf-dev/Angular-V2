@@ -1,0 +1,90 @@
+:host {
+  display: block;
+}
+
+.field {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+
+    &.required::after {
+      content: ' *';
+      color: var(--app-danger-text, #ef4444);
+    }
+  }
+}
+
+.upload-area {
+  border: 2px dashed var(--app-border, #d1d5db);
+  border-radius: 8px;
+  padding: 2rem;
+  background: var(--app-surface-page, #f9fafb);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(.disabled) {
+    border-color: var(--primary-color, #3b82f6);
+    background: var(--app-tint-blue, #eff6ff);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.upload-icon {
+  font-size: 2rem;
+  color: var(--app-text-secondary, #6b7280);
+}
+
+.upload-text {
+  color: var(--app-text-secondary, #6b7280);
+}
+
+.upload-hint {
+  color: var(--primary-color, #3b82f6);
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--app-link, #2563eb);
+  }
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--app-card-bg, #ffffff);
+  border: 1px solid var(--app-border-light, #e5e7eb);
+  border-radius: 6px;
+}
+
+.file-name {
+  color: var(--app-text, #111827);
+  font-size: 0.875rem;
+  word-break: break-all;
+}
+
+.remove-icon {
+  color: var(--app-danger-text, #ef4444);
+  cursor: pointer;
+  font-size: 0.875rem;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

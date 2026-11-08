@@ -109,22 +109,3 @@
   flex: 1;
   padding: 0;
 }
-
-/* CBDI v3: responsive left sidebar for the expert-examination shell. */
-@media (max-width: 900px) {
-  .expert-examination-wrapper {
-    flex-direction: column;
-    min-width: 0;
-  }
-  .expert-examination-sidebar {
-    width: 100%;
-    max-width: 100%;
-  }
-  .expert-examination-sidebar .sidebar-menu .menu-list li .menu-item {
-    width: 100%;
-  }
-  .expert-examination-content {
-    width: 100%;
-    min-width: 0;
-  }
-}

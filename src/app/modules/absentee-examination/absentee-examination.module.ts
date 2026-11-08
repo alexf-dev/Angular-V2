@@ -11,9 +11,8 @@ import {DialogModule} from "primeng/dialog";
 import {WaitingListComponent} from "./waiting-list/waiting-list.component";
 import {MseActRegisterJournalComponent} from "./mse-act-register-journal/mse-act-register-journal.component";
 import {PanelModule} from "primeng/panel";
-
-
-
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
+import { DateFieldComponent } from '@shared/date-field/date-field.component';
 
 @NgModule({
   declarations: [WaitingListComponent, MseActRegisterJournalComponent],
@@ -27,6 +26,8 @@ import {PanelModule} from "primeng/panel";
         CalendarModule,
         TranslateModule,
         DialogModule,
+        DropdownFieldComponent,
+        DateFieldComponent,
         PanelModule
     ]
 })

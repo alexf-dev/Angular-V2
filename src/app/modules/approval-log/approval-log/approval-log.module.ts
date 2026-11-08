@@ -16,7 +16,10 @@ import {TranslateDictionaryPipe} from "../../../core/pipe/translateDictionary.pi
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {TagModule} from "primeng/tag";
 import {TooltipModule} from "primeng/tooltip";
-
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
+import { DateFieldComponent } from '@shared/date-field/date-field.component';
+import { DataTableComponent } from '@shared/data-table/data-table.component';
 
 
 
@@ -38,7 +41,11 @@ import {TooltipModule} from "primeng/tooltip";
     TranslateDictionaryPipe,
     ConfirmDialogModule,
     TagModule,
-    TooltipModule
+    TooltipModule,
+    TextInputFieldComponent,
+    DropdownFieldComponent,
+    DateFieldComponent,
+    DataTableComponent
   ]
 })
 export class ApprovalLogModule { }

@@ -1,28 +1,43 @@
-<div class="cbdi-auth-page">
-  <!-- Декоративные элементы экспортированы из Figma. -->
-  <div class="cbdi-auth-ornament" aria-hidden="true">
-    <img class="cbdi-auth-shape cbdi-auth-shape--top" src="assets/images/auth/ornament-top.png" alt="" />
-    <img class="cbdi-auth-shape cbdi-auth-shape--left" src="assets/images/auth/ornament-left.png" alt="" />
-    <img class="cbdi-auth-shape cbdi-auth-shape--right" src="assets/images/auth/ornament-right.png" alt="" />
-    <img class="cbdi-auth-shape cbdi-auth-shape--bottom" src="assets/images/auth/ornament-bottom.png" alt="" />
-  </div>
+<div class="flex min-h-screen flex-column md:flex-row">
 
-  <header class="cbdi-auth-brand">
-    <img src="assets/images/auth/cbdi-logo.png" alt="АИС ЦБДИ" width="173" height="65" />
-  </header>
-
-  <div class="cbdi-auth-caption">
+  <!-- LEFT -->
+  <div class="hidden md:block md:w-6 h-screen overflow-hidden relative">
     <img
-      src="assets/images/auth/cbdi-caption.png"
-      alt="Централизованный банк данных лиц, имеющих инвалидность"
-      width="518"
-      height="124"
+      src="/assets/images/login-bg.svg"
+      class="w-full h-full object-cover"
+      style="object-position: 40% 30%; background: #E0EBFF"
     />
+
+    <div
+      class="absolute top-0 left-0 w-full h-full"
+      style="background: linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(0,0,0,0.10));">
+    </div>
   </div>
 
-  <main class="cbdi-auth-card">
-    <div class="cbdi-auth-inner">
+  <!-- RIGHT -->
+  <div
+    class="w-full md:w-6 flex justify-content-center align-items-center bg-white px-5 md:px-7 auth-panel"
+    style="box-shadow: -10px 0 30px rgba(0,0,0,0.04); position: relative;"
+  >
+    <div style="position: absolute; top: 16px; right: 16px;">
+      <app-theme-toggle></app-theme-toggle>
+    </div>
+    <div class="w-full auth-panel-content" style="max-width: 520px;">
+      <div class="mb-5 text-center">
+        <h2 class="mb-3 text-900" style="font-size: 2rem; font-weight: 700; line-height: 1.2;">
+          {{"MAIN.AUTH.ENTER_SYSTEM" | translate}}
+        </h2>
+        <p class="text-600 m-0" style="font-size: 1.05rem; line-height: 1.6;">
+          {{"MAIN.AUTH.ENTER_SYSTEM_DESC" | translate}}
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <p-tabMenu [model]="routeItems"></p-tabMenu>
+      </div>
+
       <router-outlet></router-outlet>
     </div>
-  </main>
+  </div>
+
 </div>

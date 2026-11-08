@@ -10,6 +10,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "primeng/api";
 import {TabViewModule} from "primeng/tabview";
 import {TranslateModule} from "@ngx-translate/core";
+import {TabMenuModule} from "primeng/tabmenu";
+import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 
 @NgModule({
     imports: [
@@ -22,7 +24,9 @@ import {TranslateModule} from "@ngx-translate/core";
         ReactiveFormsModule,
         SharedModule,
         TabViewModule,
-        TranslateModule
+        TranslateModule,
+        ThemeToggleComponent,
+        TabMenuModule
     ],
     declarations: [AuthComponent]
 })

@@ -1,19 +1,77 @@
-<div class="dropdown-field-row">
-  <label class="row-label">{{ labelKey | translate }}</label>
+<div [class.field]="true" [class.stacked]="stacked" [class.inline]="!stacked">
+  <label
+    *ngIf="label || labelKey"
+    [for]="dropdownId"
+    [class.required]="required">
+    <ng-container *ngIf="label">{{ label }}</ng-container>
+    <ng-container *ngIf="labelKey && !label">{{ labelKey | translate }}</ng-container>
+  </label>
+
   <p-dropdown
-    [options]="optionKeys"
-    optionLabel="labelKey"
-    optionValue="value"
-    [ngModel]="value"
-    (ngModelChange)="onValue($event)"
-    [placeholder]="'MAIN.COMMON.SELECT' | translate"
-    styleClass="therapeutic-dropdown"
-  >
-    <ng-template pTemplate="item" let-item>
-      <span>{{ item.labelKey | translate }}</span>
+    *ngIf="control; else ngModelDropdown"
+    [inputId]="dropdownId"
+    [options]="getOptions()"
+    [optionValue]="optionValue"
+    [optionLabel]="optionLabel"
+    [formControl]="$any(control)"
+    [placeholder]="getDisplayPlaceholder()"
+    [showClear]="showClear"
+    [style]="fullWidth ? { 'width': '100%' } : null"
+    [styleClass]="styleClass"
+    [panelStyleClass]="panelStyleClass"
+    [disabled]="disabled"
+    [appendTo]="'body'">
+
+    <ng-template let-option pTemplate="item">
+      <div *ngIf="option">
+        <span *ngIf="dictionaryMode">{{ option | translateDictionary }}</span>
+        <span *ngIf="!dictionaryMode && shouldTranslateOptions()">{{ getOptionLabel(option) | translate }}</span>
+        <span *ngIf="!dictionaryMode && !shouldTranslateOptions()">{{ getOptionLabel(option) }}</span>
+      </div>
     </ng-template>
-    <ng-template pTemplate="selectedItem" let-item>
-      <span>{{ item.labelKey | translate }}</span>
+
+    <ng-template let-selectedOption pTemplate="selectedItem">
+      <div *ngIf="selectedOption">
+        <span *ngIf="dictionaryMode">{{ selectedOption | translateDictionary }}</span>
+        <span *ngIf="!dictionaryMode && shouldTranslateOptions()">{{ getOptionLabel(selectedOption) | translate }}</span>
+        <span *ngIf="!dictionaryMode && !shouldTranslateOptions()">{{ getOptionLabel(selectedOption) }}</span>
+      </div>
+      <span *ngIf="!selectedOption">{{ getDisplayPlaceholder() }}</span>
     </ng-template>
   </p-dropdown>
+
+  <ng-template #ngModelDropdown>
+    <p-dropdown
+      [inputId]="dropdownId"
+      [options]="getOptions()"
+      [optionValue]="optionValue"
+      [optionLabel]="optionLabel"
+      [ngModel]="value"
+      (ngModelChange)="onValue($event)"
+      [placeholder]="getDisplayPlaceholder()"
+      [showClear]="showClear"
+      [disabled]="disabled"
+      [style]="fullWidth ? { 'width': '100%' } : null"
+      [styleClass]="styleClass"
+      [panelStyleClass]="panelStyleClass"
+      [appendTo]="'body'">
+
+      <ng-template let-option pTemplate="item">
+        <div *ngIf="option">
+          <span *ngIf="dictionaryMode">{{ option | translateDictionary }}</span>
+          <span *ngIf="!dictionaryMode && shouldTranslateOptions()">{{ getOptionLabel(option) | translate }}</span>
+          <span *ngIf="!dictionaryMode && !shouldTranslateOptions()">{{ getOptionLabel(option) }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template let-selectedOption pTemplate="selectedItem">
+        <div *ngIf="selectedOption">
+          <span *ngIf="dictionaryMode">{{ selectedOption | translateDictionary }}</span>
+          <span *ngIf="!dictionaryMode && shouldTranslateOptions()">{{ getOptionLabel(selectedOption) | translate }}</span>
+          <span *ngIf="!dictionaryMode && !shouldTranslateOptions()">{{ getOptionLabel(selectedOption) }}</span>
+        </div>
+        <span *ngIf="!selectedOption">{{ getDisplayPlaceholder() }}</span>
+      </ng-template>
+    </p-dropdown>
+  </ng-template>
 </div>

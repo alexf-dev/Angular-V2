@@ -16,11 +16,13 @@ import {AuthService} from './core/service/auth.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastModule} from "primeng/toast";
+import {MockApiInterceptor} from "./interceptors/mock-api.interceptor";
 
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { ErrorDialogComponent } from '@shared/error-dialog/error-dialog.component';
 import { ConfigService } from './core/config/config.service';
 
+/** Фабрика для APP_INITIALIZER — возвращает функцию, которая вызывает load() */
 export function initializeApp(configService: ConfigService): () => Promise<void> {
   return () => configService.load();
 }
@@ -29,9 +31,13 @@ export function loadConfig(configService: ConfigService): () => Promise<void> {
   return () => configService.load();
 }
 
-
+/**
+ * Блокирует бутстрап приложения, пока не загрузятся переводы
+ * базового языка → убирает мигание ключей на старте.
+ */
 export function translateAppInitializer(translate: TranslateService): () => Promise<unknown> {
   return () => {
+    // Ключ хранилища подставь тот, который реально используется у тебя для языка
     const lang = localStorage.getItem('language') || translate.getDefaultLang() || 'ru';
     translate.setDefaultLang(lang);
     return firstValueFrom(
@@ -56,14 +62,11 @@ export function HttpLoaderFactory(handler: HttpBackend) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
-function appInitializer(authService: AuthService): () => Promise<void> {
-  return async () => {
-    try {
-      await firstValueFrom(authService.loadProfile());
-    } catch (error) {
-      console.warn('Ошибка восстановления сессии:', error);
-    }
-  };
+function appInitializer(authService: AuthService) {
+  return () =>
+    new Promise((resolve) => {
+      authService.loadProfile().subscribe(resolve);
+    });
 }
 
 @NgModule({
@@ -92,7 +95,7 @@ function appInitializer(authService: AuthService): () => Promise<void> {
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: MockApiInterceptor,
       multi: true,
     },
     {
@@ -107,10 +110,10 @@ function appInitializer(authService: AuthService): () => Promise<void> {
       deps: [ConfigService],
       multi: true
     },
-    { provide: HTTP_INTERCEPTORS,
+    /*{ provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true
-    },
+    },*/
     MessageService,
     AuthService,
     ConfirmationService

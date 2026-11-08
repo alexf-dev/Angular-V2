@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -15,7 +15,7 @@ import {
   switchMap,
   throwError
 } from 'rxjs';
-import {AuthService} from '../core/service/auth.service';
+import { AuthService } from '../core/service/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -29,11 +29,16 @@ export class AuthInterceptor implements HttpInterceptor {
    */
   private refreshRequest$: Observable<string> | null = null;
 
-  constructor(private readonly authService: AuthService) {
-  }
+  constructor(private readonly authService: AuthService) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (!this.isBackendRequest(request.url) || this.isPublicRequest(request.url)) {
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    if (
+      !this.isBackendRequest(request.url) ||
+      this.isPublicRequest(request.url)
+    ) {
       return next.handle(request);
     }
 
@@ -43,19 +48,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (accessToken && this.authService.hasValidToken()) {
       return next.handle(this.addToken(request, accessToken)).pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status !== 401) {
-            return throwError(() => error);
-          }
-
-          const currentToken = this.authService.getAccessToken();
-
-          if (currentToken && currentToken !== accessToken && this.authService.hasValidToken()) {
-            return next.handle(
-              this.addToken(request, currentToken)
-            );
-          }
-
-          if (this.authService.getRefreshToken()) {
+          if (error.status === 401 && refreshToken) {
             return this.refreshAndRetry(request, next);
           }
 
@@ -68,10 +61,18 @@ export class AuthInterceptor implements HttpInterceptor {
       return this.refreshAndRetry(request, next);
     }
 
+    /*
+     * Не вызываем logout() и не обрываем любой запрос без токена.
+     * За закрытые маршруты должен отвечать AuthGuard.
+     * Сервер сам вернёт 401, если endpoint действительно защищён.
+     */
     return next.handle(request);
   }
 
-  private refreshAndRetry(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  private refreshAndRetry(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     return this.getRefreshedAccessToken().pipe(
       switchMap((newAccessToken) =>
         next.handle(this.addToken(request, newAccessToken))
@@ -97,12 +98,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
           return newAccessToken;
         }),
-        catchError((error: HttpErrorResponse) => {
-
-          if (error.status === 401) {
-            this.authService.logout();
-          }
-
+        catchError((error) => {
+          this.authService.logout();
           return throwError(() => error);
         }),
         finalize(() => {
@@ -118,7 +115,10 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.refreshRequest$;
   }
 
-  private addToken(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+  private addToken(
+    request: HttpRequest<unknown>,
+    token: string
+  ): HttpRequest<unknown> {
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

@@ -69,37 +69,28 @@
 
       <div class="formgrid grid p-fluid">
         <div class="field col-12 md:col-4">
-          <label for="disabilityNo">№ справки</label>
-          <input
-            [(ngModel)]="disabilityRef.no"
-            id="disabilityNo"
-            name="disabilityNo"
-            pInputText
-            type="text"
-          />
+          <app-text-input-field
+            label="№ справки"
+            [value]="disabilityRef.no"
+            (valueChange)="disabilityRef.no = $event">
+          </app-text-input-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="disabilityDate">Дата выдачи справки</label>
-          <p-calendar
-            [(ngModel)]="disabilityRef.date"
-            [showIcon]="true"
-            dateFormat="dd.mm.yy"
-            id="disabilityDate"
-            name="disabilityDate"
-            appendTo="body"
-          ></p-calendar>
+          <app-date-field
+            label="Дата выдачи справки"
+            [value]="disabilityRef.date"
+            (valueChange)="disabilityRef.date = $event"
+            dateFormat="dd.mm.yy">
+          </app-date-field>
         </div>
 
         <div class="field col-12 md:col-4">
-          <label for="issuedBy">Кем выдан</label>
-          <input
-            [(ngModel)]="disabilityRef.issuedBy"
-            id="issuedBy"
-            name="issuedBy"
-            pInputText
-            type="text"
-          />
+          <app-text-input-field
+            label="Кем выдан"
+            [value]="disabilityRef.issuedBy"
+            (valueChange)="disabilityRef.issuedBy = $event">
+          </app-text-input-field>
         </div>
       </div>
     </p-card>

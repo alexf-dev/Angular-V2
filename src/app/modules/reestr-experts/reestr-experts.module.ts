@@ -21,7 +21,9 @@ import {CheckboxModule} from "primeng/checkbox";
 import {BadgeModule} from "primeng/badge";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
-
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
+import { TextareaFieldComponent } from '@shared/textarea-field/textarea-field.component';
 
 
 @NgModule({
@@ -47,6 +49,9 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     CheckboxModule,
     BadgeModule,
     InputTextareaModule,
+    TextInputFieldComponent,
+    DropdownFieldComponent,
+    TextareaFieldComponent,
     ConfirmDialogModule
   ]
 })

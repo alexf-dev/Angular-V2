@@ -1,11 +1,41 @@
-<div class="input-field-row" [class.input-field-row--stacked]="stacked">
-  <label class="row-label" [attr.for]="inputId">{{ labelKey | translate }}</label>
+<div [class.field]="true" [class.stacked]="stacked" [class.inline]="!stacked">
+  <label
+    *ngIf="label || labelKey"
+    [for]="inputId"
+    [class.required]="required">
+    <ng-container *ngIf="label">{{ label }}</ng-container>
+    <ng-container *ngIf="labelKey && !label">{{ labelKey | translate }}</ng-container>
+  </label>
+
   <input
+    *ngIf="control; else ngModelInput"
     [id]="inputId"
     type="text"
     pInputText
-    [ngModel]="value"
-    (ngModelChange)="onValue($event)"
-    [placeholder]="placeholderKey | translate"
+    class="w-full"
+    [formControl]="$any(control)"
+    [disabled]="disabled"
+    (keydown)="onKeydown($event)"
+    [placeholder]="getDisplayPlaceholder()"
+    [attr.maxlength]="maxLength"
+    [class.readonly-field]="readonly"
+    [readonly]="readonly"
   />
+
+  <ng-template #ngModelInput>
+    <input
+      [id]="inputId"
+      type="text"
+      pInputText
+      class="w-full"
+      [ngModel]="value"
+      (ngModelChange)="onValue($event)"
+      (keydown)="onKeydown($event)"
+      [placeholder]="getDisplayPlaceholder()"
+      [attr.maxlength]="maxLength"
+      [class.readonly-field]="readonly"
+      [disabled]="disabled"
+      [readonly]="readonly"
+    />
+  </ng-template>
 </div>

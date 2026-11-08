@@ -33,6 +33,12 @@ import {AdditionalDocumentsComponent} from "./documents/additional-documents/add
 import {IdentityCardComponent} from "./documents/identity-card/identity-card.component";
 import {AbsenteeHistoryComponent} from "./absentee-history/absentee-history.component";
 import {ConcatSubItemsNamePipe} from "../../core/pipe/concat-sub-items-name.pipe";
+import { TextInputFieldComponent } from '@shared/text-input-field/text-input-field.component';
+import { DropdownFieldComponent } from '@shared/dropdown-field/dropdown-field.component';
+import { CheckFieldComponent } from '@shared/check-field/check-field.component';
+import { DateFieldComponent } from '@shared/date-field/date-field.component';
+import { NumberFieldComponent } from '@shared/number-field/number-field.component';
+import { TextareaFieldComponent } from '@shared/textarea-field/textarea-field.component';
 
 const routes: Routes = [
   { path: '', component: TabsComponent }
@@ -50,7 +56,38 @@ const routes: Routes = [
     ChooseHelpComponent,
     AbsenteeHistoryComponent
   ],
-  imports: [RouterModule.forChild(routes), NgClass, CommonModule, FormsModule, ButtonModule, InputTextModule, DropdownModule, CalendarModule, CheckboxModule, InputNumberModule, AccordionModule, TranslateModule, TranslateDictionaryPipe, CardModule, InputMaskModule, DialogModule, TreeModule, TableModule, DateFormatPipe, PanelModule, ExpertConclusionComponent, ReactiveFormsModule, DocumentsComponent, AdditionalDocumentsComponent, IdentityCardComponent, ConcatSubItemsNamePipe],
+  imports: [RouterModule.forChild(routes),
+    NgClass,
+    CommonModule,
+    FormsModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    CalendarModule,
+    CheckboxModule,
+    InputNumberModule,
+    AccordionModule,
+    TranslateModule,
+    TranslateDictionaryPipe,
+    CardModule,
+    InputMaskModule,
+    DialogModule,
+    TreeModule,
+    TableModule,
+    DateFormatPipe,
+    PanelModule,
+    ExpertConclusionComponent,
+    ReactiveFormsModule,
+    DocumentsComponent,
+    AdditionalDocumentsComponent,
+    IdentityCardComponent,
+    ConcatSubItemsNamePipe,
+    TextInputFieldComponent,
+    DropdownFieldComponent,
+    CheckFieldComponent,
+    DateFieldComponent,
+    NumberFieldComponent,
+    TextareaFieldComponent],
   exports: [RouterModule]
 })
 export class ExaminationModule {}
