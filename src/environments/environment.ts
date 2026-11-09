@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  useMocks: false,
+  useBff: false,  // ← ВЫКЛЮЧЕНО ПО УМОЛЧАНИЮ
+  apiUrl: 'https://test-cbdi-gateway.enbek.kz',
+  bffUrl: 'https://test-cbdi-bff.enbek.kz'  // ← Укажите реальный URL BFF
 };
 
 /*
